@@ -7,9 +7,14 @@ book:
   date: "2025-08-05"
   chapters:
     - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
+    - 01-question.qmd
+    - 02-import.qmd
+    - 03-tidy.qmd
+    - 04-transform.qmd
+    - 05-visualize.qmd
+    - 06-model.qmd
+    - 07-communicate.qmd
+    - appendix.qmd
 
 bibliography: references.bib
 
@@ -18,6 +23,7 @@ format:
     theme:
       - cosmo
       - brand
+    code-fold: true  
 
 
 
