@@ -4,39 +4,89 @@
     "href": "index.html",
     "title": "STAT468 Final Project Report",
     "section": "",
-    "text": "1 Hello, World!\nThis is the STAT468 project book.",
+    "text": "1 Abstract\npppeeepppooo",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Hello, World!</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Abstract</span>"
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "2  Introduction",
+    "objectID": "01-question.html",
+    "href": "01-question.html",
+    "title": "2  Question of Interest and Relevance",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "hi",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Question of Interest and Relevance</span>"
     ]
   },
   {
-    "objectID": "summary.html",
-    "href": "summary.html",
-    "title": "3  Summary",
+    "objectID": "02-import.html",
+    "href": "02-import.html",
+    "title": "3  Import",
     "section": "",
-    "text": "In summary, this book has no content whatsoever.",
+    "text": "hi",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Summary</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Import</span>"
     ]
   },
   {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
+    "objectID": "03-tidy.html",
+    "href": "03-tidy.html",
+    "title": "4  Tidy",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "hi",
     "crumbs": [
-      "References"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Tidy</span>"
+    ]
+  },
+  {
+    "objectID": "04-transform.html",
+    "href": "04-transform.html",
+    "title": "5  Transform",
+    "section": "",
+    "text": "hi",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Transform</span>"
+    ]
+  },
+  {
+    "objectID": "05-visualize.html",
+    "href": "05-visualize.html",
+    "title": "6  Visualize",
+    "section": "",
+    "text": "hi",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualize</span>"
+    ]
+  },
+  {
+    "objectID": "06-model.html",
+    "href": "06-model.html",
+    "title": "7  Model",
+    "section": "",
+    "text": "hi",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Model</span>"
+    ]
+  },
+  {
+    "objectID": "07-communicate.html",
+    "href": "07-communicate.html",
+    "title": "8  Communicate",
+    "section": "",
+    "text": "hi",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Communicate</span>"
+    ]
+  },
+  {
+    "objectID": "appendix.html",
+    "href": "appendix.html",
+    "title": "9  Appendix",
+    "section": "",
+    "text": "hi",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Appendix</span>"
     ]
   }
 ]
