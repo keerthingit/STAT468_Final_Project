@@ -1,6 +1,7 @@
 # Visualize
 
 ```{r load-data, echo: false, message: false, warning: false}
+
 library(dplyr)
 library(gt)
 
