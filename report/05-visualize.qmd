@@ -1,3 +1,44 @@
 # Visualize
 
-hi
+```{r load-data, echo: false, message: false, warning: false}
+library(dplyr)
+library(gt)
+
+matches_metadata <- 
+  readr::read_csv("../cleaned data/matches_metadata.csv", 
+                  show_col_types = FALSE) 
+
+court_coordinates <- 
+  readr::read_csv("../cleaned data/court_coordinates.csv", 
+                  show_col_types = FALSE) 
+rally_data <- 
+  readr::read_csv("../cleaned data/rally_data.csv",
+                  show_col_types = FALSE)
+```
+
+```{r table-1, echo: false, message: false, warning: false}
+table_1 <- matches_metadata |> 
+  summarise(
+    matches_played = n(),
+    matches_won = sum(winner == "CHOU Tien Chen"),
+    matches_summary = paste(matches_won,"/",matches_played)
+  )
+
+table_1 |>
+  select(matches_summary) |>
+  gt() |>
+  tab_header(
+    title = "Matches Won"
+  ) |>
+  tab_options(
+    table.background.color = "#E5E4E2",
+    table.align = "left",
+    column_labels.hidden = TRUE,
+    table.border.top.style = "none",
+  ) |>
+  tab_style(
+    style = cell_text(align = "center",
+                      weight = "bold",),
+    locations = cells_body()
+  )
+```
