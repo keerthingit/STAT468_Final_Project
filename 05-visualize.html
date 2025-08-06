@@ -252,92 +252,146 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>matches_metadata <span class="ot">&lt;-</span> </span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/matches_metadata.csv"</span>, </span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>court_coordinates <span class="ot">&lt;-</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/court_coordinates.csv"</span>, </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>rally_data <span class="ot">&lt;-</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/rally_data.csv"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>set_data <span class="ot">&lt;-</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/set_data.csv"</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>court_coordinates <span class="ot">&lt;-</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/court_coordinates.csv"</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>rally_data <span class="ot">&lt;-</span> </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/rally_data.csv"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> matches_metadata <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_played =</span> <span class="fu">n</span>(),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_won =</span> <span class="fu">sum</span>(winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="fu">paste</span>(matches_won,<span class="st">"/"</span>,matches_played)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>table_1 <span class="sc">|&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(matches_summary) <span class="sc">|&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Matches Won"</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#E5E4E2"</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.align =</span> <span class="st">"left"</span>,</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.hidden =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.top.style =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">align =</span> <span class="st">"center"</span>,</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                      <span class="at">weight =</span> <span class="st">"bold"</span>,),</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> set_data <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(matches_metadata <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(match_id, tournament, round, year, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                     winner, loser), <span class="at">by =</span> <span class="st">"match_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_winner =</span> winner,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_loser =</span> loser</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser =</span> <span class="fu">if_else</span>(set_winner <span class="sc">==</span> match_winner, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                        match_loser, match_winner),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_winner_points =</span> <span class="fu">if_else</span>(set_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                            chou_score, opp_score),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser_points =</span> <span class="fu">if_else</span>(set_loser <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                           chou_score, opp_score)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>chou_score,<span class="sc">-</span>opp_score) <span class="sc">|&gt;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year) </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> table_1 <span class="sc">|&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_label =</span> <span class="fu">paste0</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>      tournament, <span class="st">" / "</span>, round, <span class="st">" / "</span>, year, <span class="st">" / "</span>, match_winner, <span class="st">"* vs "</span>, match_loser</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_score =</span> <span class="fu">paste0</span>(set_winner_points, <span class="st">" - "</span>, set_loser_points, </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                   <span class="st">" ("</span>, <span class="fu">abs</span>(set_winner_points <span class="sc">-</span> set_loser_points), <span class="st">")"</span>),</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_label =</span> <span class="fu">paste0</span>(<span class="st">"Set "</span>, set)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>table_1 <span class="sc">|&gt;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    match_label, set_label, set_winner, set_loser, set_score</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">"match_label"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_label =</span> <span class="st">""</span>, </span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_winner =</span> <span class="st">""</span>, </span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser =</span> <span class="st">""</span>, </span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_score =</span> <span class="st">""</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#f9f9f9"</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.top.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.bottom.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.border.bottom.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.top.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.bottom.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.striping.include_table_body =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">"left"</span>,</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(set_label, set_winner, set_loser, set_score)</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">indent =</span> <span class="fu">px</span>(<span class="dv">20</span>)),</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_label)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#E4F2D5"</span>)),</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_winner,</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rows =</span> set_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>)</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#FFCCCB"</span>)),</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_loser,</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rows =</span> set_loser <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">md</span>(<span class="st">"**Notes**: An asterisk (*) next to a player's name in the header indicates the match winner. </span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="st">    The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="st">    Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him."</span>)</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span> </span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="rpzdbzihft" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rpzdbzihft table {
+<div id="qfyilxicst" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qfyilxicst table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rpzdbzihft thead, #rpzdbzihft tbody, #rpzdbzihft tfoot, #rpzdbzihft tr, #rpzdbzihft td, #rpzdbzihft th {
+#qfyilxicst thead, #qfyilxicst tbody, #qfyilxicst tfoot, #qfyilxicst tr, #qfyilxicst td, #qfyilxicst th {
   border-style: none;
 }
 
-#rpzdbzihft p {
+#qfyilxicst p {
   margin: 0;
   padding: 0;
 }
 
-#rpzdbzihft .gt_table {
+#qfyilxicst .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
-  margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   color: #333333;
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
-  background-color: #E5E4E2;
+  background-color: #F9F9F9;
   width: auto;
   border-top-style: none;
   border-top-width: 2px;
-  border-top-color: #A8A8A8;
+  border-top-color: #5F5F5F;
   border-right-style: none;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  border-bottom-style: solid;
+  border-bottom-style: none;
   border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #5F5F5F;
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
 
-#rpzdbzihft .gt_caption {
+#qfyilxicst .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rpzdbzihft .gt_title {
+#qfyilxicst .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -345,11 +399,11 @@ Attaching package: 'dplyr'</code></pre>
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
-  border-bottom-color: #E5E4E2;
+  border-bottom-color: #F9F9F9;
   border-bottom-width: 0;
 }
 
-#rpzdbzihft .gt_subtitle {
+#qfyilxicst .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -357,14 +411,14 @@ Attaching package: 'dplyr'</code></pre>
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  border-top-color: #E5E4E2;
+  border-top-color: #F9F9F9;
   border-top-width: 0;
 }
 
-#rpzdbzihft .gt_heading {
-  background-color: #E5E4E2;
+#qfyilxicst .gt_heading {
+  background-color: #F9F9F9;
   text-align: center;
-  border-bottom-color: #E5E4E2;
+  border-bottom-color: #F9F9F9;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -373,19 +427,19 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rpzdbzihft .gt_bottom_border {
-  border-bottom-style: solid;
+#qfyilxicst .gt_bottom_border {
+  border-bottom-style: none;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
 }
 
-#rpzdbzihft .gt_col_headings {
-  border-top-style: solid;
+#qfyilxicst .gt_col_headings {
+  border-top-style: none;
   border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
+  border-top-color: #5F5F5F;
+  border-bottom-style: none;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -394,9 +448,9 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rpzdbzihft .gt_col_heading {
-  color: #333333;
-  background-color: #E5E4E2;
+#qfyilxicst .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -414,9 +468,9 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#rpzdbzihft .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #E5E4E2;
+#qfyilxicst .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
   font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
@@ -426,18 +480,18 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 4px;
 }
 
-#rpzdbzihft .gt_column_spanner_outer:first-child {
+#qfyilxicst .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rpzdbzihft .gt_column_spanner_outer:last-child {
+#qfyilxicst .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rpzdbzihft .gt_column_spanner {
-  border-bottom-style: solid;
+#qfyilxicst .gt_column_spanner {
+  border-bottom-style: none;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
   vertical-align: bottom;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -446,26 +500,26 @@ Attaching package: 'dplyr'</code></pre>
   width: 100%;
 }
 
-#rpzdbzihft .gt_spanner_row {
+#qfyilxicst .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rpzdbzihft .gt_group_heading {
+#qfyilxicst .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   color: #333333;
-  background-color: #E5E4E2;
+  background-color: #F9F9F9;
   font-size: 100%;
   font-weight: initial;
   text-transform: inherit;
   border-top-style: solid;
   border-top-width: 2px;
-  border-top-color: #D3D3D3;
+  border-top-color: #5F5F5F;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
   border-left-style: none;
   border-left-width: 1px;
   border-left-color: #D3D3D3;
@@ -476,51 +530,64 @@ Attaching package: 'dplyr'</code></pre>
   text-align: left;
 }
 
-#rpzdbzihft .gt_empty_group_heading {
+#qfyilxicst .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
-  background-color: #E5E4E2;
+  background-color: #F9F9F9;
   font-size: 100%;
   font-weight: initial;
   border-top-style: solid;
   border-top-width: 2px;
-  border-top-color: #D3D3D3;
+  border-top-color: #5F5F5F;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
   vertical-align: middle;
 }
 
-#rpzdbzihft .gt_from_md > :first-child {
+#qfyilxicst .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rpzdbzihft .gt_from_md > :last-child {
+#qfyilxicst .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rpzdbzihft .gt_row {
+#qfyilxicst .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
-  border-top-style: solid;
+  border-top-style: none;
   border-top-width: 1px;
-  border-top-color: #D3D3D3;
+  border-top-color: #D5D5D5;
   border-left-style: none;
   border-left-width: 1px;
-  border-left-color: #D3D3D3;
+  border-left-color: #D5D5D5;
   border-right-style: none;
   border-right-width: 1px;
-  border-right-color: #D3D3D3;
+  border-right-color: #D5D5D5;
   vertical-align: middle;
   overflow-x: hidden;
 }
 
-#rpzdbzihft .gt_stub {
+#qfyilxicst .gt_stub {
   color: #333333;
-  background-color: #E5E4E2;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qfyilxicst .gt_stub_row_group {
+  color: #333333;
+  background-color: #F9F9F9;
   font-size: 100%;
   font-weight: initial;
   text-transform: inherit;
@@ -529,9 +596,695 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
   padding-left: 5px;
   padding-right: 5px;
+  vertical-align: top;
 }
 
-#rpzdbzihft .gt_stub_row_group {
+#qfyilxicst .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qfyilxicst .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qfyilxicst .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qfyilxicst .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#qfyilxicst .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qfyilxicst .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qfyilxicst .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qfyilxicst .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#qfyilxicst .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qfyilxicst .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#qfyilxicst .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qfyilxicst .gt_footnotes {
+  color: #333333;
+  background-color: #F9F9F9;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qfyilxicst .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qfyilxicst .gt_sourcenotes {
+  color: #333333;
+  background-color: #F9F9F9;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qfyilxicst .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qfyilxicst .gt_left {
+  text-align: left;
+}
+
+#qfyilxicst .gt_center {
+  text-align: center;
+}
+
+#qfyilxicst .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qfyilxicst .gt_font_normal {
+  font-weight: normal;
+}
+
+#qfyilxicst .gt_font_bold {
+  font-weight: bold;
+}
+
+#qfyilxicst .gt_font_italic {
+  font-style: italic;
+}
+
+#qfyilxicst .gt_super {
+  font-size: 65%;
+}
+
+#qfyilxicst .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qfyilxicst .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qfyilxicst .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qfyilxicst .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qfyilxicst .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qfyilxicst .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qfyilxicst .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#qfyilxicst .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qfyilxicst div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="gt_col_headings header">
+<th id="set_label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="set_winner" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="set_loser" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="set_score" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="gt_group_heading_row odd">
+<td colspan="4" id="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 13 (8)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser">Kento MOMOTA</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 11 (10)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 3</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 16 (5)</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<td colspan="4" id="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 20 (1)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 16 (5)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 3</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 15 (6)</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<td colspan="4" id="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 19 (2)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left gt_striped" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left gt_striped" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left gt_striped" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Malaysia Open 2018 / Quarter-finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 11 (10)</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<td colspan="4" id="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first odd">
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 15 (6)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_loser">Kento MOMOTA</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 17 (4)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 3</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 18 (3)</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<td colspan="4" id="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first odd">
+<td class="gt_row gt_left gt_striped" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_winner">CHEN Long</td>
+<td class="gt_row gt_left gt_striped" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_score">21 - 15 (6)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_winner">CHEN Long</td>
+<td class="gt_row gt_left" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="World Tour Finals / Group-Stage / 2019 / CHEN Long* vs CHOU Tien Chen  set_score">21 - 19 (2)</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<td colspan="4" id="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left gt_striped" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left gt_striped" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 19 (2)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
+<td class="gt_row gt_left" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="KOREA OPEN 2019 / Finals / 2019 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 17 (4)</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<td colspan="4" id="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen</td>
+</tr>
+<tr class="gt_row_group_first odd">
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_winner">CHEN Long</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_score">21 - 17 (4)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_winner">CHEN Long</td>
+<td class="gt_row gt_left" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Denmark Open 2019 / Quarter-finals / 2019 / CHEN Long* vs CHOU Tien Chen  set_score">21 - 17 (4)</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<td colspan="4" id="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN</td>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_loser">Anders ANTONSEN</td>
+<td class="gt_row gt_left gt_striped" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_score">21 - 10 (11)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_loser">Anders ANTONSEN</td>
+<td class="gt_row gt_left" headers="Fuzhou Open 2019 / Semi-finals / 2019 / CHOU Tien Chen* vs Anders ANTONSEN  set_score">21 - 12 (9)</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<td colspan="4" id="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE</td>
+</tr>
+<tr class="gt_row_group_first odd">
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_loser">Jonatan CHRISTIE</td>
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_score">21 - 11 (10)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_loser">Jonatan CHRISTIE</td>
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_score">21 - 13 (8)</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<td colspan="4" id="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus</td>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_loser">NG Ka Long Angus</td>
+<td class="gt_row gt_left gt_striped" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_score">21 - 15 (6)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_loser">NG Ka Long Angus</td>
+<td class="gt_row gt_left" headers="Sudirman Cup 2019 / Group-Stage / 2019 / CHOU Tien Chen* vs NG Ka Long Angus  set_score">21 - 15 (6)</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<td colspan="4" id="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE</td>
+</tr>
+<tr class="gt_row_group_first odd">
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_label" style="text-indent: 20px">Set 1</td>
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_winner">Jonatan CHRISTIE</td>
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_score">21 - 16 (5)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_label" style="text-indent: 20px">Set 2</td>
+<td class="gt_row gt_left" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_loser">Jonatan CHRISTIE</td>
+<td class="gt_row gt_left" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_score">21 - 18 (3)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_label" style="text-indent: 20px">Set 3</td>
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_winner" style="background-color: #E4F2D5">CHOU Tien Chen</td>
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_loser">Jonatan CHRISTIE</td>
+<td class="gt_row gt_left gt_striped" headers="Indonesia Open 2019 / Quarter-finals / 2019 / CHOU Tien Chen* vs Jonatan CHRISTIE  set_score">21 - 14 (7)</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="4" class="gt_sourcenote"><span data-qmd-base64="KipOb3RlcyoqOiBBbiBhc3RlcmlzayAoKikgbmV4dCB0byBhIHBsYXllcidzIG5hbWUgaW4gdGhlIGhlYWRlciBpbmRpY2F0ZXMgdGhlIG1hdGNoIHdpbm5lci4gCiAgICAKICAgIFRoZSB0YWJsZSBkaXNwbGF5cyBlYWNoIHNldOKAmXMgbnVtYmVyLCBzZXQgd2lubmVyIGFuZCBsb3NlciwgYW5kIGZpbmFsIHNjb3JlIHdpdGggdGhlIHBvaW50IGRpZmZlcmVuY2UgaW4gcGFyZW50aGVzZXMuCiAgICAKICAgIEdyZWVuIGhpZ2hsaWdodHMgaW5kaWNhdGUgc2V0cyB3b24gYnkgQ0hPVSBUaWVuIENoZW4gYW5kIHJlZCBoaWdobGlnaHRzIGluZGljYXRlIHNldHMgbG9zdCBieSBoaW0u">
+<span class="gt_from_md">
+<strong>Notes</strong>: An asterisk (*) next to a player’s name in the header indicates the match winner.
+<p></p>
+<pre><code>The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.
+
+Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him.</code></pre>
+</span></span></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>table_2 <span class="ot">&lt;-</span> matches_metadata <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_played =</span> <span class="fu">n</span>(),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_won =</span> <span class="fu">sum</span>(winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="fu">paste</span>(matches_won,<span class="st">"/"</span>,matches_played)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>table_2 <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(matches_summary) <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="st">"Matches Won"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#E5E4E2"</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="qzgmuujbgd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qzgmuujbgd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qzgmuujbgd thead, #qzgmuujbgd tbody, #qzgmuujbgd tfoot, #qzgmuujbgd tr, #qzgmuujbgd td, #qzgmuujbgd th {
+  border-style: none;
+}
+
+#qzgmuujbgd p {
+  margin: 0;
+  padding: 0;
+}
+
+#qzgmuujbgd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #E5E4E2;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qzgmuujbgd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qzgmuujbgd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #E5E4E2;
+  border-bottom-width: 0;
+}
+
+#qzgmuujbgd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #E5E4E2;
+  border-top-width: 0;
+}
+
+#qzgmuujbgd .gt_heading {
+  background-color: #E5E4E2;
+  text-align: center;
+  border-bottom-color: #E5E4E2;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qzgmuujbgd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qzgmuujbgd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qzgmuujbgd .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qzgmuujbgd .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qzgmuujbgd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qzgmuujbgd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qzgmuujbgd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qzgmuujbgd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qzgmuujbgd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #E5E4E2;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qzgmuujbgd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #E5E4E2;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#qzgmuujbgd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qzgmuujbgd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qzgmuujbgd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qzgmuujbgd .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qzgmuujbgd .gt_stub_row_group {
   color: #333333;
   background-color: #E5E4E2;
   font-size: 100%;
@@ -545,17 +1298,17 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: top;
 }
 
-#rpzdbzihft .gt_row_group_first td {
+#qzgmuujbgd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rpzdbzihft .gt_row_group_first th {
+#qzgmuujbgd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rpzdbzihft .gt_summary_row {
+#qzgmuujbgd .gt_summary_row {
   color: #333333;
-  background-color: #E5E4E2;
+  background-color: #FFFFFF;
   text-transform: inherit;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -563,28 +1316,28 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#rpzdbzihft .gt_first_summary_row {
+#qzgmuujbgd .gt_first_summary_row {
   border-top-style: solid;
-  border-top-color: #D3D3D3;
+  border-top-color: #5F5F5F;
 }
 
-#rpzdbzihft .gt_first_summary_row.thick {
+#qzgmuujbgd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rpzdbzihft .gt_last_summary_row {
+#qzgmuujbgd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
 }
 
-#rpzdbzihft .gt_grand_summary_row {
+#qzgmuujbgd .gt_grand_summary_row {
   color: #333333;
-  background-color: #E5E4E2;
+  background-color: #D5D5D5;
   text-transform: inherit;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -592,40 +1345,40 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#rpzdbzihft .gt_first_grand_summary_row {
+#qzgmuujbgd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-style: double;
   border-top-width: 6px;
-  border-top-color: #D3D3D3;
+  border-top-color: #5F5F5F;
 }
 
-#rpzdbzihft .gt_last_grand_summary_row_top {
+#qzgmuujbgd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   border-bottom-style: double;
   border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
 }
 
-#rpzdbzihft .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
+#qzgmuujbgd .gt_striped {
+  background-color: #F4F4F4;
 }
 
-#rpzdbzihft .gt_table_body {
+#qzgmuujbgd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
-  border-top-color: #D3D3D3;
+  border-top-color: #5F5F5F;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+  border-bottom-color: #5F5F5F;
 }
 
-#rpzdbzihft .gt_footnotes {
+#qzgmuujbgd .gt_footnotes {
   color: #333333;
   background-color: #E5E4E2;
   border-bottom-style: none;
@@ -639,7 +1392,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rpzdbzihft .gt_footnote {
+#qzgmuujbgd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -648,7 +1401,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#rpzdbzihft .gt_sourcenotes {
+#qzgmuujbgd .gt_sourcenotes {
   color: #333333;
   background-color: #E5E4E2;
   border-bottom-style: none;
@@ -662,7 +1415,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#rpzdbzihft .gt_sourcenote {
+#qzgmuujbgd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -670,85 +1423,85 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#rpzdbzihft .gt_left {
+#qzgmuujbgd .gt_left {
   text-align: left;
 }
 
-#rpzdbzihft .gt_center {
+#qzgmuujbgd .gt_center {
   text-align: center;
 }
 
-#rpzdbzihft .gt_right {
+#qzgmuujbgd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rpzdbzihft .gt_font_normal {
+#qzgmuujbgd .gt_font_normal {
   font-weight: normal;
 }
 
-#rpzdbzihft .gt_font_bold {
+#qzgmuujbgd .gt_font_bold {
   font-weight: bold;
 }
 
-#rpzdbzihft .gt_font_italic {
+#qzgmuujbgd .gt_font_italic {
   font-style: italic;
 }
 
-#rpzdbzihft .gt_super {
+#qzgmuujbgd .gt_super {
   font-size: 65%;
 }
 
-#rpzdbzihft .gt_footnote_marks {
+#qzgmuujbgd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rpzdbzihft .gt_asterisk {
+#qzgmuujbgd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rpzdbzihft .gt_indent_1 {
+#qzgmuujbgd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rpzdbzihft .gt_indent_2 {
+#qzgmuujbgd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rpzdbzihft .gt_indent_3 {
+#qzgmuujbgd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rpzdbzihft .gt_indent_4 {
+#qzgmuujbgd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rpzdbzihft .gt_indent_5 {
+#qzgmuujbgd .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rpzdbzihft .katex-display {
+#qzgmuujbgd .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rpzdbzihft div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qzgmuujbgd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_heading header">
-<th class="gt_heading gt_title gt_font_normal gt_bottom_border" style="text-align: center;">Matches Won</th>
+<tr class="gt_col_headings header">
+<th id="matches_summary" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Matches Won</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_right" headers="matches_summary" style="text-align: center; font-weight: bold;">4 / 11</td>
+<td class="gt_row gt_right" style="text-align: center;" headers="matches_summary">4 / 11</td>
 </tr>
 </tbody>
 </table>
