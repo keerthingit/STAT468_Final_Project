@@ -54,7 +54,7 @@
     "href": "05-visualize.html",
     "title": "6  Visualize",
     "section": "",
-    "text": "hi",
+    "text": "Code\nlibrary(dplyr)\n\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\nCode\nlibrary(gt)\n\nmatches_metadata &lt;- \n  readr::read_csv(\"../cleaned data/matches_metadata.csv\", \n                  show_col_types = FALSE) \n\ncourt_coordinates &lt;- \n  readr::read_csv(\"../cleaned data/court_coordinates.csv\", \n                  show_col_types = FALSE) \nrally_data &lt;- \n  readr::read_csv(\"../cleaned data/rally_data.csv\",\n                  show_col_types = FALSE)\n\n\n\n\nCode\ntable_1 &lt;- matches_metadata |&gt; \n  summarise(\n    matches_played = n(),\n    matches_won = sum(winner == \"CHOU Tien Chen\"),\n    matches_summary = paste(matches_won,\"/\",matches_played)\n  )\n\ntable_1 |&gt;\n  select(matches_summary) |&gt;\n  gt() |&gt;\n  tab_header(\n    title = \"Matches Won\"\n  ) |&gt;\n  tab_options(\n    table.background.color = \"#E5E4E2\",\n    table.align = \"left\",\n    column_labels.hidden = TRUE,\n    table.border.top.style = \"none\",\n  ) |&gt;\n  tab_style(\n    style = cell_text(align = \"center\",\n                      weight = \"bold\",),\n    locations = cells_body()\n  )\n\n\n\n\n\n\n\n\nMatches Won\n\n\n\n\n4 / 11",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualize</span>"
     ]
