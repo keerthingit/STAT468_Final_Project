@@ -7,7 +7,7 @@ chou_matches_metadata <- read_csv("match.csv") |>
   filter(winner == "CHOU Tien Chen" | loser == "CHOU Tien Chen") |>
   # Add a match_id column
   mutate(match_id = sample(1000:9999, n(), replace = FALSE)) |>
-  select(match_id, tournament, round, year, winner, loser, duration, video)
+  select(match_id, tournament, round, year, set, winner, loser, duration, video)
 
 rally_data <- tibble()
 
@@ -56,10 +56,12 @@ rally_data <- rally_data |>
     player_name = if_else(player == "A", winner, loser),
     point_winner_name = if_else(getpoint_player == "A", winner, 
                         if_else(getpoint_player == "B", loser, NA)),
-    backhand = if_else(is.na(backhand), 0, backhand)
+    backhand = if_else(is.na(backhand), 0, backhand),
+    chou_score = if_else(winner == "CHOU Tien Chen", roundscore_A, roundscore_B),
+    opp_score  = if_else(winner == "CHOU Tien Chen", roundscore_B, roundscore_A)
   ) |>
   select(match_id, set_id, rally, ball_round, time, player_name, backhand, 
-         landing_x, landing_y, type, flaw,
+         landing_x, landing_y, type, flaw, chou_score,opp_score,
          player_location_x, player_location_y, 
          opponent_location_x, opponent_location_y,
          point_winner_name) 
@@ -185,14 +187,25 @@ court_coordinates <- court_coordinates |>
 rally_data <- rally_data |>
   rename(
     set = set_id,
-    stroke = ball_round,         # or stroke_order, rally_order, etc.
+    stroke = ball_round,         
     current_player = player_name,
     shot_type = type,
     foul = flaw,
     rally_winner = point_winner_name
   )
 
+set_data <- rally_data |>
+  filter(
+    !is.na(rally_winner),
+    chou_score == 21 | opp_score == 21
+  ) |>
+  select(match_id, set, rally_winner, chou_score, opp_score) |>
+  rename(set_winner = rally_winner)
+
+  
+
 write_csv(chou_matches_metadata, "../cleaned data/matches_metadata.csv")
 write_csv(court_coordinates, "../cleaned data/court_coordinates.csv")
 write_csv(rally_data, "../cleaned data/rally_data.csv")
-  
+write_csv(set_data, "../cleaned data/set_data.csv")
+
