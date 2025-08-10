@@ -195,14 +195,11 @@ rally_data <- rally_data |>
   )
 
 set_data <- rally_data |>
-  filter(
-    !is.na(rally_winner),
-    chou_score == 21 | opp_score == 21
-  ) |>
-  select(match_id, set, rally_winner, chou_score, opp_score) |>
+  group_by(match_id, set) |>
+  filter(row_number() == n()) |>  # get last row of each set
+  filter(!is.na(chou_score), !is.na(opp_score)) |>
+  select(match_id, set, rally_winner, chou_score, opp_score)|>
   rename(set_winner = rally_winner)
-
-  
 
 write_csv(chou_matches_metadata, "../cleaned data/matches_metadata.csv")
 write_csv(court_coordinates, "../cleaned data/court_coordinates.csv")

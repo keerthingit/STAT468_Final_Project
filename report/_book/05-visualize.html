@@ -245,120 +245,137 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>matches_metadata <span class="ot">&lt;-</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/matches_metadata.csv"</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>set_data <span class="ot">&lt;-</span> </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/set_data.csv"</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>court_coordinates <span class="ot">&lt;-</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/court_coordinates.csv"</span>, </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>rally_data <span class="ot">&lt;-</span> </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/rally_data.csv"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats) </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>matches_metadata <span class="ot">&lt;-</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/matches_metadata.csv"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>set_data <span class="ot">&lt;-</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/set_data.csv"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>court_coordinates <span class="ot">&lt;-</span> </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/court_coordinates.csv"</span>, </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>rally_data <span class="ot">&lt;-</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../cleaned data/rally_data.csv"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> set_data <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(matches_metadata <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(match_id, tournament, round, year, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                     winner, loser), <span class="at">by =</span> <span class="st">"match_id"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_winner =</span> winner,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_loser =</span> loser</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser =</span> <span class="fu">if_else</span>(set_winner <span class="sc">==</span> match_winner, </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                        match_loser, match_winner),</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_winner_points =</span> <span class="fu">if_else</span>(set_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                            chou_score, opp_score),</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser_points =</span> <span class="fu">if_else</span>(set_loser <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, </span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                           chou_score, opp_score)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>chou_score,<span class="sc">-</span>opp_score) <span class="sc">|&gt;</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year) </span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> table_1 <span class="sc">|&gt;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_label =</span> <span class="fu">paste0</span>(</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>      tournament, <span class="st">" / "</span>, round, <span class="st">" / "</span>, year, <span class="st">" / "</span>, match_winner, <span class="st">"* vs "</span>, match_loser</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_score =</span> <span class="fu">paste0</span>(set_winner_points, <span class="st">" - "</span>, set_loser_points, </span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                   <span class="st">" ("</span>, <span class="fu">abs</span>(set_winner_points <span class="sc">-</span> set_loser_points), <span class="st">")"</span>),</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_label =</span> <span class="fu">paste0</span>(<span class="st">"Set "</span>, set)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>table_1 <span class="sc">|&gt;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    match_label, set_label, set_winner, set_loser, set_score</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">"match_label"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_label =</span> <span class="st">""</span>, </span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_winner =</span> <span class="st">""</span>, </span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser =</span> <span class="st">""</span>, </span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_score =</span> <span class="st">""</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#f9f9f9"</span>,</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.top.style =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.bottom.style =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.border.bottom.style =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.top.style =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.bottom.style =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.striping.include_table_body =</span> <span class="cn">FALSE</span></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">"left"</span>,</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(set_label, set_winner, set_loser, set_score)</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">indent =</span> <span class="fu">px</span>(<span class="dv">20</span>)),</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_label)</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#E4F2D5"</span>)),</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_winner,</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rows =</span> set_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>)</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#FFCCCB"</span>)),</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_loser,</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rows =</span> set_loser <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>)</span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">md</span>(<span class="st">"**Notes**: An asterisk (*) next to a player's name in the header indicates the match winner. </span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="st">    The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.</span></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="st">    Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him."</span>)</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span> </span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> set_data <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(matches_metadata <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(match_id, tournament, round, year, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                     winner, loser), <span class="at">by =</span> <span class="st">"match_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_winner =</span> winner,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_loser =</span> loser</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser =</span> <span class="fu">if_else</span>(set_winner <span class="sc">==</span> match_winner, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                        match_loser, match_winner),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_winner_points =</span> <span class="fu">if_else</span>(set_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                            chou_score, opp_score),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser_points =</span> <span class="fu">if_else</span>(set_loser <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                           chou_score, opp_score)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>chou_score,<span class="sc">-</span>opp_score) <span class="sc">|&gt;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year) </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> table_1 <span class="sc">|&gt;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">match_label =</span> <span class="fu">paste0</span>(</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>      tournament, <span class="st">" / "</span>, round, <span class="st">" / "</span>, year, <span class="st">" / "</span>, match_winner, <span class="st">"* vs "</span>, match_loser</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_score =</span> <span class="fu">paste0</span>(set_winner_points, <span class="st">" - "</span>, set_loser_points, </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>                   <span class="st">" ("</span>, <span class="fu">abs</span>(set_winner_points <span class="sc">-</span> set_loser_points), <span class="st">")"</span>),</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_label =</span> <span class="fu">paste0</span>(<span class="st">"Set "</span>, set)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>table_1 <span class="sc">|&gt;</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    match_label, set_label, set_winner, set_loser, set_score</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">"match_label"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_label =</span> <span class="st">""</span>, </span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_winner =</span> <span class="st">""</span>, </span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_loser =</span> <span class="st">""</span>, </span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_score =</span> <span class="st">""</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#f9f9f9"</span>,</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.top.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.bottom.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.border.bottom.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.top.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.bottom.style =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.striping.include_table_body =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">"left"</span>,</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(set_label, set_winner, set_loser, set_score)</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">indent =</span> <span class="fu">px</span>(<span class="dv">20</span>)),</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_label)</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#E4F2D5"</span>)),</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_winner,</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rows =</span> set_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>)</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#FFCCCB"</span>)),</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> set_loser,</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>                           <span class="at">rows =</span> set_loser <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>)</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">md</span>(<span class="st">"**Notes**: An asterisk (*) next to a player's name in the header indicates the match winner. </span></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="st">    The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="st">    Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him."</span>)</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span> </span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="qpycowawlb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qpycowawlb table {
+<div id="dnmfxolakc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dnmfxolakc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qpycowawlb thead, #qpycowawlb tbody, #qpycowawlb tfoot, #qpycowawlb tr, #qpycowawlb td, #qpycowawlb th {
+#dnmfxolakc thead, #dnmfxolakc tbody, #dnmfxolakc tfoot, #dnmfxolakc tr, #dnmfxolakc td, #dnmfxolakc th {
   border-style: none;
 }
 
-#qpycowawlb p {
+#dnmfxolakc p {
   margin: 0;
   padding: 0;
 }
 
-#qpycowawlb .gt_table {
+#dnmfxolakc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -384,12 +401,12 @@ Attaching package: 'dplyr'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#qpycowawlb .gt_caption {
+#dnmfxolakc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qpycowawlb .gt_title {
+#dnmfxolakc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -401,7 +418,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-width: 0;
 }
 
-#qpycowawlb .gt_subtitle {
+#dnmfxolakc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -413,7 +430,7 @@ Attaching package: 'dplyr'</code></pre>
   border-top-width: 0;
 }
 
-#qpycowawlb .gt_heading {
+#dnmfxolakc .gt_heading {
   background-color: #F9F9F9;
   text-align: center;
   border-bottom-color: #F9F9F9;
@@ -425,13 +442,13 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qpycowawlb .gt_bottom_border {
+#dnmfxolakc .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #5F5F5F;
 }
 
-#qpycowawlb .gt_col_headings {
+#dnmfxolakc .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #5F5F5F;
@@ -446,7 +463,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qpycowawlb .gt_col_heading {
+#dnmfxolakc .gt_col_heading {
   color: #FFFFFF;
   background-color: #5F5F5F;
   font-size: 100%;
@@ -466,7 +483,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#qpycowawlb .gt_column_spanner_outer {
+#dnmfxolakc .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #5F5F5F;
   font-size: 100%;
@@ -478,15 +495,15 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 4px;
 }
 
-#qpycowawlb .gt_column_spanner_outer:first-child {
+#dnmfxolakc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qpycowawlb .gt_column_spanner_outer:last-child {
+#dnmfxolakc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qpycowawlb .gt_column_spanner {
+#dnmfxolakc .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #5F5F5F;
@@ -498,11 +515,11 @@ Attaching package: 'dplyr'</code></pre>
   width: 100%;
 }
 
-#qpycowawlb .gt_spanner_row {
+#dnmfxolakc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qpycowawlb .gt_group_heading {
+#dnmfxolakc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -528,7 +545,7 @@ Attaching package: 'dplyr'</code></pre>
   text-align: left;
 }
 
-#qpycowawlb .gt_empty_group_heading {
+#dnmfxolakc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #F9F9F9;
@@ -543,15 +560,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: middle;
 }
 
-#qpycowawlb .gt_from_md > :first-child {
+#dnmfxolakc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qpycowawlb .gt_from_md > :last-child {
+#dnmfxolakc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qpycowawlb .gt_row {
+#dnmfxolakc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -570,7 +587,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#qpycowawlb .gt_stub {
+#dnmfxolakc .gt_stub {
   color: #333333;
   background-color: #D5D5D5;
   font-size: 100%;
@@ -583,7 +600,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#qpycowawlb .gt_stub_row_group {
+#dnmfxolakc .gt_stub_row_group {
   color: #333333;
   background-color: #F9F9F9;
   font-size: 100%;
@@ -597,15 +614,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: top;
 }
 
-#qpycowawlb .gt_row_group_first td {
+#dnmfxolakc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qpycowawlb .gt_row_group_first th {
+#dnmfxolakc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qpycowawlb .gt_summary_row {
+#dnmfxolakc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -615,16 +632,16 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#qpycowawlb .gt_first_summary_row {
+#dnmfxolakc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #5F5F5F;
 }
 
-#qpycowawlb .gt_first_summary_row.thick {
+#dnmfxolakc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qpycowawlb .gt_last_summary_row {
+#dnmfxolakc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -634,7 +651,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #5F5F5F;
 }
 
-#qpycowawlb .gt_grand_summary_row {
+#dnmfxolakc .gt_grand_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -644,7 +661,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#qpycowawlb .gt_first_grand_summary_row {
+#dnmfxolakc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -654,7 +671,7 @@ Attaching package: 'dplyr'</code></pre>
   border-top-color: #5F5F5F;
 }
 
-#qpycowawlb .gt_last_grand_summary_row_top {
+#dnmfxolakc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -664,11 +681,11 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #5F5F5F;
 }
 
-#qpycowawlb .gt_striped {
+#dnmfxolakc .gt_striped {
   background-color: #F4F4F4;
 }
 
-#qpycowawlb .gt_table_body {
+#dnmfxolakc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #5F5F5F;
@@ -677,7 +694,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #5F5F5F;
 }
 
-#qpycowawlb .gt_footnotes {
+#dnmfxolakc .gt_footnotes {
   color: #333333;
   background-color: #F9F9F9;
   border-bottom-style: none;
@@ -691,7 +708,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qpycowawlb .gt_footnote {
+#dnmfxolakc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -700,7 +717,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#qpycowawlb .gt_sourcenotes {
+#dnmfxolakc .gt_sourcenotes {
   color: #333333;
   background-color: #F9F9F9;
   border-bottom-style: none;
@@ -714,7 +731,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qpycowawlb .gt_sourcenote {
+#dnmfxolakc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -722,72 +739,72 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#qpycowawlb .gt_left {
+#dnmfxolakc .gt_left {
   text-align: left;
 }
 
-#qpycowawlb .gt_center {
+#dnmfxolakc .gt_center {
   text-align: center;
 }
 
-#qpycowawlb .gt_right {
+#dnmfxolakc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qpycowawlb .gt_font_normal {
+#dnmfxolakc .gt_font_normal {
   font-weight: normal;
 }
 
-#qpycowawlb .gt_font_bold {
+#dnmfxolakc .gt_font_bold {
   font-weight: bold;
 }
 
-#qpycowawlb .gt_font_italic {
+#dnmfxolakc .gt_font_italic {
   font-style: italic;
 }
 
-#qpycowawlb .gt_super {
+#dnmfxolakc .gt_super {
   font-size: 65%;
 }
 
-#qpycowawlb .gt_footnote_marks {
+#dnmfxolakc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qpycowawlb .gt_asterisk {
+#dnmfxolakc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qpycowawlb .gt_indent_1 {
+#dnmfxolakc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qpycowawlb .gt_indent_2 {
+#dnmfxolakc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qpycowawlb .gt_indent_3 {
+#dnmfxolakc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qpycowawlb .gt_indent_4 {
+#dnmfxolakc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qpycowawlb .gt_indent_5 {
+#dnmfxolakc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qpycowawlb .katex-display {
+#dnmfxolakc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qpycowawlb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dnmfxolakc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -836,7 +853,7 @@ Attaching package: 'dplyr'</code></pre>
 <td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 1</td>
 <td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_winner">Kento MOMOTA</td>
 <td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_loser" style="background-color: #FFCCCB">CHOU Tien Chen</td>
-<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">21 - 20 (1)</td>
+<td class="gt_row gt_left gt_striped" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_score">22 - 20 (2)</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Denmark Open 2018 / Finals / 2018 / Kento MOMOTA* vs CHOU Tien Chen  set_label" style="text-indent: 20px">Set 2</td>
@@ -999,11 +1016,12 @@ Attaching package: 'dplyr'</code></pre>
 </tr>
 </tbody><tfoot class="gt_sourcenotes">
 <tr class="odd">
-<td colspan="4" class="gt_sourcenote"><span data-qmd-base64="KipOb3RlcyoqOiBBbiBhc3RlcmlzayAoKikgbmV4dCB0byBhIHBsYXllcidzIG5hbWUgaW4gdGhlIGhlYWRlciBpbmRpY2F0ZXMgdGhlIG1hdGNoIHdpbm5lci4gCiAgICAKICAgIFRoZSB0YWJsZSBkaXNwbGF5cyBlYWNoIHNldOKAmXMgbnVtYmVyLCBzZXQgd2lubmVyIGFuZCBsb3NlciwgYW5kIGZpbmFsIHNjb3JlIHdpdGggdGhlIHBvaW50IGRpZmZlcmVuY2UgaW4gcGFyZW50aGVzZXMuCiAgICAKICAgIEdyZWVuIGhpZ2hsaWdodHMgaW5kaWNhdGUgc2V0cyB3b24gYnkgQ0hPVSBUaWVuIENoZW4gYW5kIHJlZCBoaWdobGlnaHRzIGluZGljYXRlIHNldHMgbG9zdCBieSBoaW0u">
+<td colspan="4" class="gt_sourcenote"><span data-qmd-base64="KipOb3RlcyoqOiBBbiBhc3RlcmlzayAoKikgbmV4dCB0byBhIHBsYXllcidzIG5hbWUgaW4gdGhlIGhlYWRlciBpbmRpY2F0ZXMgdGhlIG1hdGNoIHdpbm5lci4gCiAgICAKICAgIAogICAgVGhlIHRhYmxlIGRpc3BsYXlzIGVhY2ggc2V04oCZcyBudW1iZXIsIHNldCB3aW5uZXIgYW5kIGxvc2VyLCBhbmQgZmluYWwgc2NvcmUgd2l0aCB0aGUgcG9pbnQgZGlmZmVyZW5jZSBpbiBwYXJlbnRoZXNlcy4KICAgIAogICAgCiAgICBHcmVlbiBoaWdobGlnaHRzIGluZGljYXRlIHNldHMgd29uIGJ5IENIT1UgVGllbiBDaGVuIGFuZCByZWQgaGlnaGxpZ2h0cyBpbmRpY2F0ZSBzZXRzIGxvc3QgYnkgaGltLg==">
 <span class="gt_from_md">
 <strong>Notes</strong>: An asterisk (*) next to a player’s name in the header indicates the match winner.
 <p></p>
 <pre><code>The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.
+
 
 Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him.</code></pre>
 </span></span></td>
@@ -1018,46 +1036,46 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>table_2 <span class="ot">&lt;-</span> matches_metadata <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_played =</span> <span class="fu">n</span>(),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_won =</span> <span class="fu">sum</span>(winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="fu">paste</span>(matches_won,<span class="st">"/"</span>,matches_played)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>table_2 <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(matches_summary) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="st">"Matches Won"</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#E5E4E2"</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">align =</span> <span class="st">"center"</span>),</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>table_2 <span class="ot">&lt;-</span> matches_metadata <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_played =</span> <span class="fu">n</span>(),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_won =</span> <span class="fu">sum</span>(winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="fu">paste</span>(matches_won,<span class="st">"/"</span>,matches_played)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>table_2 <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(matches_summary) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">matches_summary =</span> <span class="st">"Matches Won"</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#E5E4E2"</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="tbqzryvsdu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tbqzryvsdu table {
+<div id="rnczgiovqj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rnczgiovqj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tbqzryvsdu thead, #tbqzryvsdu tbody, #tbqzryvsdu tfoot, #tbqzryvsdu tr, #tbqzryvsdu td, #tbqzryvsdu th {
+#rnczgiovqj thead, #rnczgiovqj tbody, #rnczgiovqj tfoot, #rnczgiovqj tr, #rnczgiovqj td, #rnczgiovqj th {
   border-style: none;
 }
 
-#tbqzryvsdu p {
+#rnczgiovqj p {
   margin: 0;
   padding: 0;
 }
 
-#tbqzryvsdu .gt_table {
+#rnczgiovqj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1083,12 +1101,12 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-left-color: #D3D3D3;
 }
 
-#tbqzryvsdu .gt_caption {
+#rnczgiovqj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tbqzryvsdu .gt_title {
+#rnczgiovqj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1100,7 +1118,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-bottom-width: 0;
 }
 
-#tbqzryvsdu .gt_subtitle {
+#rnczgiovqj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1112,7 +1130,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-top-width: 0;
 }
 
-#tbqzryvsdu .gt_heading {
+#rnczgiovqj .gt_heading {
   background-color: #E5E4E2;
   text-align: center;
   border-bottom-color: #E5E4E2;
@@ -1124,13 +1142,13 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-right-color: #D3D3D3;
 }
 
-#tbqzryvsdu .gt_bottom_border {
+#rnczgiovqj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #5F5F5F;
 }
 
-#tbqzryvsdu .gt_col_headings {
+#rnczgiovqj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #5F5F5F;
@@ -1145,7 +1163,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-right-color: #D3D3D3;
 }
 
-#tbqzryvsdu .gt_col_heading {
+#rnczgiovqj .gt_col_heading {
   color: #FFFFFF;
   background-color: #5F5F5F;
   font-size: 100%;
@@ -1165,7 +1183,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   overflow-x: hidden;
 }
 
-#tbqzryvsdu .gt_column_spanner_outer {
+#rnczgiovqj .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #5F5F5F;
   font-size: 100%;
@@ -1177,15 +1195,15 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   padding-right: 4px;
 }
 
-#tbqzryvsdu .gt_column_spanner_outer:first-child {
+#rnczgiovqj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tbqzryvsdu .gt_column_spanner_outer:last-child {
+#rnczgiovqj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tbqzryvsdu .gt_column_spanner {
+#rnczgiovqj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #5F5F5F;
@@ -1197,11 +1215,11 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   width: 100%;
 }
 
-#tbqzryvsdu .gt_spanner_row {
+#rnczgiovqj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tbqzryvsdu .gt_group_heading {
+#rnczgiovqj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1227,7 +1245,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   text-align: left;
 }
 
-#tbqzryvsdu .gt_empty_group_heading {
+#rnczgiovqj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #E5E4E2;
@@ -1242,15 +1260,15 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   vertical-align: middle;
 }
 
-#tbqzryvsdu .gt_from_md > :first-child {
+#rnczgiovqj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tbqzryvsdu .gt_from_md > :last-child {
+#rnczgiovqj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tbqzryvsdu .gt_row {
+#rnczgiovqj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1269,7 +1287,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   overflow-x: hidden;
 }
 
-#tbqzryvsdu .gt_stub {
+#rnczgiovqj .gt_stub {
   color: #333333;
   background-color: #D5D5D5;
   font-size: 100%;
@@ -1282,7 +1300,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   padding-right: 5px;
 }
 
-#tbqzryvsdu .gt_stub_row_group {
+#rnczgiovqj .gt_stub_row_group {
   color: #333333;
   background-color: #E5E4E2;
   font-size: 100%;
@@ -1296,15 +1314,15 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   vertical-align: top;
 }
 
-#tbqzryvsdu .gt_row_group_first td {
+#rnczgiovqj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tbqzryvsdu .gt_row_group_first th {
+#rnczgiovqj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tbqzryvsdu .gt_summary_row {
+#rnczgiovqj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1314,16 +1332,16 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   padding-right: 5px;
 }
 
-#tbqzryvsdu .gt_first_summary_row {
+#rnczgiovqj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #5F5F5F;
 }
 
-#tbqzryvsdu .gt_first_summary_row.thick {
+#rnczgiovqj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tbqzryvsdu .gt_last_summary_row {
+#rnczgiovqj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1333,7 +1351,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-bottom-color: #5F5F5F;
 }
 
-#tbqzryvsdu .gt_grand_summary_row {
+#rnczgiovqj .gt_grand_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -1343,7 +1361,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   padding-right: 5px;
 }
 
-#tbqzryvsdu .gt_first_grand_summary_row {
+#rnczgiovqj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1353,7 +1371,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-top-color: #5F5F5F;
 }
 
-#tbqzryvsdu .gt_last_grand_summary_row_top {
+#rnczgiovqj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1363,11 +1381,11 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-bottom-color: #5F5F5F;
 }
 
-#tbqzryvsdu .gt_striped {
+#rnczgiovqj .gt_striped {
   background-color: #F4F4F4;
 }
 
-#tbqzryvsdu .gt_table_body {
+#rnczgiovqj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #5F5F5F;
@@ -1376,7 +1394,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-bottom-color: #5F5F5F;
 }
 
-#tbqzryvsdu .gt_footnotes {
+#rnczgiovqj .gt_footnotes {
   color: #333333;
   background-color: #E5E4E2;
   border-bottom-style: none;
@@ -1390,7 +1408,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-right-color: #D3D3D3;
 }
 
-#tbqzryvsdu .gt_footnote {
+#rnczgiovqj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1399,7 +1417,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   padding-right: 5px;
 }
 
-#tbqzryvsdu .gt_sourcenotes {
+#rnczgiovqj .gt_sourcenotes {
   color: #333333;
   background-color: #E5E4E2;
   border-bottom-style: none;
@@ -1413,7 +1431,7 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   border-right-color: #D3D3D3;
 }
 
-#tbqzryvsdu .gt_sourcenote {
+#rnczgiovqj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1421,72 +1439,72 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
   padding-right: 5px;
 }
 
-#tbqzryvsdu .gt_left {
+#rnczgiovqj .gt_left {
   text-align: left;
 }
 
-#tbqzryvsdu .gt_center {
+#rnczgiovqj .gt_center {
   text-align: center;
 }
 
-#tbqzryvsdu .gt_right {
+#rnczgiovqj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tbqzryvsdu .gt_font_normal {
+#rnczgiovqj .gt_font_normal {
   font-weight: normal;
 }
 
-#tbqzryvsdu .gt_font_bold {
+#rnczgiovqj .gt_font_bold {
   font-weight: bold;
 }
 
-#tbqzryvsdu .gt_font_italic {
+#rnczgiovqj .gt_font_italic {
   font-style: italic;
 }
 
-#tbqzryvsdu .gt_super {
+#rnczgiovqj .gt_super {
   font-size: 65%;
 }
 
-#tbqzryvsdu .gt_footnote_marks {
+#rnczgiovqj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tbqzryvsdu .gt_asterisk {
+#rnczgiovqj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tbqzryvsdu .gt_indent_1 {
+#rnczgiovqj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tbqzryvsdu .gt_indent_2 {
+#rnczgiovqj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tbqzryvsdu .gt_indent_3 {
+#rnczgiovqj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tbqzryvsdu .gt_indent_4 {
+#rnczgiovqj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tbqzryvsdu .gt_indent_5 {
+#rnczgiovqj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tbqzryvsdu .katex-display {
+#rnczgiovqj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tbqzryvsdu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rnczgiovqj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1504,6 +1522,1422 @@ Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate
 </tbody>
 </table>
 
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rally_lengths <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rally_winner)) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rally_length =</span> <span class="fu">max</span>(stroke),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rally_winner =</span> rally_winner,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_result =</span> <span class="fu">if_else</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Win"</span>, </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Loss"</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>mean_length <span class="ot">&lt;-</span> <span class="fu">mean</span>(rally_lengths<span class="sc">$</span>rally_length, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>sd_length <span class="ot">&lt;-</span> <span class="fu">sd</span>(rally_lengths<span class="sc">$</span>rally_length, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>rally_lengths <span class="sc">|&gt;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">count =</span> <span class="fu">n</span>(),</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(rally_length),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(rally_length),</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">min =</span> <span class="fu">min</span>(rally_length),</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q1 =</span> <span class="fu">quantile</span>(rally_length, <span class="fl">0.25</span>),</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(rally_length),</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3 =</span> <span class="fu">quantile</span>(rally_length, <span class="fl">0.75</span>),</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">max</span>(rally_length)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">everything</span>(), <span class="at">decimals =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">count =</span> <span class="st">"No. of rallies"</span>,</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="st">"Mean"</span>,</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="st">"Standard deviation"</span>,</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">min =</span> <span class="st">"Minimum"</span>,</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q1 =</span> <span class="st">"Q1"</span>,</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="st">"Median"</span>,</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3 =</span> <span class="st">"Q3"</span>,</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="st">"Maximum"</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">columns =</span> <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(                                              </span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>())</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_row.padding =</span> <span class="fu">px</span>(<span class="dv">6</span>),</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.padding =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.width =</span> <span class="fu">pct</span>(<span class="dv">100</span>)</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="qyugfalksh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qyugfalksh table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qyugfalksh thead, #qyugfalksh tbody, #qyugfalksh tfoot, #qyugfalksh tr, #qyugfalksh td, #qyugfalksh th {
+  border-style: none;
+}
+
+#qyugfalksh p {
+  margin: 0;
+  padding: 0;
+}
+
+#qyugfalksh .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: 100%;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qyugfalksh .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qyugfalksh .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qyugfalksh .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qyugfalksh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qyugfalksh .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qyugfalksh .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qyugfalksh .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 10px;
+  padding-bottom: 11px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qyugfalksh .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qyugfalksh .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qyugfalksh .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qyugfalksh .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qyugfalksh .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qyugfalksh .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qyugfalksh .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#qyugfalksh .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qyugfalksh .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qyugfalksh .gt_row {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qyugfalksh .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qyugfalksh .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qyugfalksh .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qyugfalksh .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qyugfalksh .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qyugfalksh .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#qyugfalksh .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qyugfalksh .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qyugfalksh .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qyugfalksh .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#qyugfalksh .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qyugfalksh .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#qyugfalksh .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#qyugfalksh .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qyugfalksh .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qyugfalksh .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qyugfalksh .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qyugfalksh .gt_left {
+  text-align: left;
+}
+
+#qyugfalksh .gt_center {
+  text-align: center;
+}
+
+#qyugfalksh .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qyugfalksh .gt_font_normal {
+  font-weight: normal;
+}
+
+#qyugfalksh .gt_font_bold {
+  font-weight: bold;
+}
+
+#qyugfalksh .gt_font_italic {
+  font-style: italic;
+}
+
+#qyugfalksh .gt_super {
+  font-size: 65%;
+}
+
+#qyugfalksh .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qyugfalksh .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qyugfalksh .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qyugfalksh .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qyugfalksh .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qyugfalksh .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qyugfalksh .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#qyugfalksh .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qyugfalksh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="count" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">No. of rallies</th>
+<th id="mean" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Mean</th>
+<th id="sd" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Standard deviation</th>
+<th id="min" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Minimum</th>
+<th id="Q1" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Q1</th>
+<th id="median" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Median</th>
+<th id="Q3" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Q3</th>
+<th id="max" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Maximum</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_center" headers="count">920</td>
+<td class="gt_row gt_center" headers="mean">12</td>
+<td class="gt_row gt_center" headers="sd">9</td>
+<td class="gt_row gt_center" headers="min">1</td>
+<td class="gt_row gt_center" headers="Q1">5</td>
+<td class="gt_row gt_center" headers="median">10</td>
+<td class="gt_row gt_center" headers="Q3">15</td>
+<td class="gt_row gt_center" headers="max">48</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rally_lengths, <span class="fu">aes</span>(<span class="at">x =</span> rally_length)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#A3D1FF"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> mean_length), </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> mean_length <span class="sc">+</span> sd_length), </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> mean_length <span class="sc">-</span> sd_length), </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Rally Lengths"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of Strokes in a Rally"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequency"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-1, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rally_lengths, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(rally_length, <span class="at">fill =</span> chou_result)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Win"</span> <span class="ot">=</span> <span class="st">"#CDECCB"</span>, <span class="st">"Loss"</span> <span class="ot">=</span> <span class="st">"#FFB3B3"</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"CHOU Tien Chen"</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rally Length Distribution by CHOU Tien Chen's Wins and Losses"</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of Strokes in a Rally"</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequency"</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-1, echo- false, message- false, warning- false-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>chou_shots <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">last_by_chou =</span> <span class="fu">row_number</span>() <span class="sc">==</span> <span class="fu">max</span>(<span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(last_by_chou) <span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(match_id, set, rally, shot_type, rally_winner)<span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rally_winner)) <span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">won_point =</span> <span class="fu">if_else</span>(rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(shot_type) <span class="sc">|&gt;</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">total =</span> <span class="fu">n</span>(),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">points_won =</span> <span class="fu">sum</span>(won_point),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(chou_shots, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(shot_type, total), <span class="at">y =</span> total, <span class="at">fill =</span> points_won)) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#FFB3B3"</span>, <span class="at">high =</span> <span class="st">"#CDECCB"</span>, <span class="at">name =</span> <span class="st">"Points Won"</span>) <span class="sc">+</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"CHOU Tien Chen’s Shot Types and Their Success"</span>,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Shot Type"</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Times Used"</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-2, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>winning_shots <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(match_id, set, rally, shot_type) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(shot_type, <span class="at">name =</span> <span class="st">"chou_wins"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(winning_shots, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(shot_type, chou_wins), <span class="at">y =</span> chou_wins)) <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#CDECCB"</span>) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"CHOU Tien Chen’s Winning Shots"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Shot Type"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rallies Won by CHOU"</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-4, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>winning_shots_hand <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(match_id, set, rally, shot_type, backhand) <span class="sc">|&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hand =</span> <span class="fu">if_else</span>(backhand <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Backhand"</span>, <span class="st">"Fronthand"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(shot_type, hand)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(winning_shots_hand, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(shot_type, n, sum), <span class="at">y =</span> n, <span class="at">fill =</span> hand)) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Fronthand"</span> <span class="ot">=</span> <span class="st">"#A3D1FF"</span>, <span class="st">"Backhand"</span> <span class="ot">=</span> <span class="st">"#2A7BC4"</span>)) <span class="sc">+</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"CHOU Tien Chen’s Winning Shots by Hand Used"</span>,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Shot Type"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rallies Won"</span>,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Hand Used"</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-5, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rally_data <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(match_id, set, rally, backhand, rally_winner) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rally_winner)) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">hand =</span> <span class="fu">if_else</span>(backhand <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Backhand"</span>, <span class="st">"Fronthand"</span>),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">point_won =</span> rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hand) <span class="sc">|&gt;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">total =</span> <span class="fu">n</span>(),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">points_won =</span> <span class="fu">sum</span>(point_won),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_won =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> points_won <span class="sc">/</span> total, <span class="dv">1</span>),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(total, points_won), <span class="at">decimals =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> pct_won, <span class="at">scale_values =</span> <span class="cn">FALSE</span>, <span class="at">decimals =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">hand =</span> <span class="st">"Hand"</span>,</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">total =</span> <span class="st">"Total Shots"</span>,</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">points_won =</span> <span class="st">"Total Points"</span>,</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_won =</span> <span class="st">"% Shots Scored"</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">columns =</span> <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(                                              </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>())</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_row.padding =</span> <span class="fu">px</span>(<span class="dv">6</span>),</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.padding =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.width =</span> <span class="fu">pct</span>(<span class="dv">100</span>)</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="lhqwnfowlw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lhqwnfowlw table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#lhqwnfowlw thead, #lhqwnfowlw tbody, #lhqwnfowlw tfoot, #lhqwnfowlw tr, #lhqwnfowlw td, #lhqwnfowlw th {
+  border-style: none;
+}
+
+#lhqwnfowlw p {
+  margin: 0;
+  padding: 0;
+}
+
+#lhqwnfowlw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: 100%;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#lhqwnfowlw .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#lhqwnfowlw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#lhqwnfowlw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#lhqwnfowlw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lhqwnfowlw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#lhqwnfowlw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lhqwnfowlw .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 10px;
+  padding-bottom: 11px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#lhqwnfowlw .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#lhqwnfowlw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#lhqwnfowlw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#lhqwnfowlw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#lhqwnfowlw .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#lhqwnfowlw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#lhqwnfowlw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#lhqwnfowlw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#lhqwnfowlw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#lhqwnfowlw .gt_row {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#lhqwnfowlw .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lhqwnfowlw .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#lhqwnfowlw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#lhqwnfowlw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#lhqwnfowlw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lhqwnfowlw .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#lhqwnfowlw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#lhqwnfowlw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#lhqwnfowlw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lhqwnfowlw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#lhqwnfowlw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#lhqwnfowlw .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#lhqwnfowlw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#lhqwnfowlw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lhqwnfowlw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lhqwnfowlw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lhqwnfowlw .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lhqwnfowlw .gt_left {
+  text-align: left;
+}
+
+#lhqwnfowlw .gt_center {
+  text-align: center;
+}
+
+#lhqwnfowlw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#lhqwnfowlw .gt_font_normal {
+  font-weight: normal;
+}
+
+#lhqwnfowlw .gt_font_bold {
+  font-weight: bold;
+}
+
+#lhqwnfowlw .gt_font_italic {
+  font-style: italic;
+}
+
+#lhqwnfowlw .gt_super {
+  font-size: 65%;
+}
+
+#lhqwnfowlw .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#lhqwnfowlw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#lhqwnfowlw .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#lhqwnfowlw .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#lhqwnfowlw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#lhqwnfowlw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#lhqwnfowlw .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#lhqwnfowlw .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#lhqwnfowlw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="hand" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Hand</th>
+<th id="total" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Total Shots</th>
+<th id="points_won" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">Total Points</th>
+<th id="pct_won" class="gt_col_heading gt_columns_bottom_border gt_center" style="text-align: center;" data-quarto-table-cell-role="th" scope="col">% Shots Scored</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_center" headers="hand">Backhand</td>
+<td class="gt_row gt_center" headers="total">160</td>
+<td class="gt_row gt_center" headers="points_won">26</td>
+<td class="gt_row gt_center" headers="pct_won">16%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center gt_striped" headers="hand">Fronthand</td>
+<td class="gt_row gt_center gt_striped" headers="total">329</td>
+<td class="gt_row gt_center gt_striped" headers="points_won">165</td>
+<td class="gt_row gt_center gt_striped" headers="pct_won">50%</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>loosing_shots <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">!=</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rally_winner <span class="sc">!=</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(match_id, set, rally, shot_type) <span class="sc">|&gt;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(shot_type, <span class="at">name =</span> <span class="st">"chou_losses"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(loosing_shots, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(shot_type, chou_losses), <span class="at">y =</span> chou_losses)) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#FFB3B3"</span>) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Opponent Shots That Led to CHOU Tien Chen Losing"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Shot Type"</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rallies Lost by CHOU"</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-3, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>shuttle_points <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(shuttle_x), <span class="sc">!</span><span class="fu">is.na</span>(shuttle_y))<span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(shuttle_x, shuttle_y, <span class="at">name =</span> <span class="st">"freq"</span>) </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Court polygon</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>court_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>upleft_x,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>upright_x,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>downright_x,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>downleft_x</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>upleft_y,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>upright_y,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>downright_y,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    court_coordinates<span class="sc">$</span>downleft_y</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Net line</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>net_y <span class="ot">&lt;-</span> (court_coordinates<span class="sc">$</span>upleft_y <span class="sc">+</span> court_coordinates<span class="sc">$</span>downleft_y) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>net_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(court_coordinates<span class="sc">$</span>upleft_x, court_coordinates<span class="sc">$</span>upright_x),</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(net_y, net_y)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot court with points</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> court_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> net_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> shuttle_points,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> shuttle_x, <span class="at">y =</span> shuttle_y, <span class="at">size =</span> freq, <span class="at">alpha =</span> freq),</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#2A7BC4"</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.9</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Shuttle Landing Points"</span>,</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Point size and transparency reflect frequency"</span>,</span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-33, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>chou_shots_win <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(shuttle_x), <span class="sc">!</span><span class="fu">is.na</span>(shuttle_y), <span class="sc">!</span><span class="fu">is.na</span>(chou_y), <span class="sc">!</span><span class="fu">is.na</span>(rally_winner)) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">point_outcome =</span> <span class="fu">if_else</span>(rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, <span class="st">"Win"</span>, <span class="st">"No Point"</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">shuttle_y_mirrored =</span> <span class="fu">if_else</span>(chou_y <span class="sc">&lt;</span> net_y, <span class="dv">2</span> <span class="sc">*</span> net_y <span class="sc">-</span> shuttle_y, shuttle_y),</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">shuttle_x_mirrored =</span> shuttle_x  <span class="co"># &lt;- this line is corrected</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(point_outcome <span class="sc">==</span> <span class="st">"Win"</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> court_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> net_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, <span class="at">linewidth =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> chou_shots_win,</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> shuttle_x_mirrored, <span class="at">y =</span> shuttle_y_mirrored, <span class="at">color =</span> shot_type),</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span>,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"CHOU's Winning Shuttle Landing Positions"</span>,</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Shot Type"</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"D"</span>) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">ncol =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> (court_coordinates<span class="sc">$</span>upleft_x <span class="sc">+</span> court_coordinates<span class="sc">$</span>upright_x) <span class="sc">/</span> <span class="dv">2</span>, </span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> court_coordinates<span class="sc">$</span>downleft_y <span class="sc">+</span> <span class="dv">30</span>, </span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>         <span class="at">label =</span> <span class="st">"CHOU Tien Chen"</span>, </span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">size =</span> <span class="dv">3</span>,  <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> (court_coordinates<span class="sc">$</span>upleft_x <span class="sc">+</span> court_coordinates<span class="sc">$</span>upright_x) <span class="sc">/</span> <span class="dv">2</span>, </span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> court_coordinates<span class="sc">$</span>upleft_y <span class="sc">-</span> <span class="dv">30</span>, </span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>         <span class="at">label =</span> <span class="st">"Opponent"</span>, </span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>         <span class="at">size =</span> <span class="dv">3</span>,  <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-33, echo- false, message- false, warning- false-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for opponent's winning shots (CHOU lost the point)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>opp_shots_win <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">!=</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(shuttle_x), <span class="sc">!</span><span class="fu">is.na</span>(shuttle_y), <span class="sc">!</span><span class="fu">is.na</span>(opp_y), <span class="sc">!</span><span class="fu">is.na</span>(rally_winner)) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rally_winner <span class="sc">!=</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">shuttle_y_mirrored =</span> <span class="fu">if_else</span>(opp_y <span class="sc">&gt;</span> net_y, <span class="dv">2</span> <span class="sc">*</span> net_y <span class="sc">-</span> shuttle_y, shuttle_y),</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">shuttle_x_mirrored =</span> shuttle_x</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot for CHOU's losing points from opponent shots</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> court_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> net_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, <span class="at">linewidth =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> opp_shots_win,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> shuttle_x_mirrored, <span class="at">y =</span> shuttle_y_mirrored, <span class="at">color =</span> shot_type),</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span>,</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"CHOU's Losing Shuttle Landing Positions"</span>,</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Shot Type"</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"D"</span>) <span class="sc">+</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">ncol =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> (court_coordinates<span class="sc">$</span>upleft_x <span class="sc">+</span> court_coordinates<span class="sc">$</span>upright_x) <span class="sc">/</span> <span class="dv">2</span>, </span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> court_coordinates<span class="sc">$</span>downleft_y <span class="sc">+</span> <span class="dv">30</span>, </span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"CHOU Tien Chen"</span>, </span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>,  <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> (court_coordinates<span class="sc">$</span>upleft_x <span class="sc">+</span> court_coordinates<span class="sc">$</span>upright_x) <span class="sc">/</span> <span class="dv">2</span>, </span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> court_coordinates<span class="sc">$</span>upleft_y <span class="sc">-</span> <span class="dv">30</span>, </span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Opponent"</span>, </span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>,  <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-visualize_files/figure-html/figure-33, echo- false, message- false, warning- false-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>

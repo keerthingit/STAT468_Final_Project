@@ -3,7 +3,10 @@
 ```{r load-data, echo: false, message: false, warning: false}
 
 library(dplyr)
+library(ggplot2)
 library(gt)
+library(lubridate)
+library(forcats) 
 
 matches_metadata <- 
   readr::read_csv("../cleaned data/matches_metadata.csv", 
@@ -93,7 +96,9 @@ table_1 |>
   tab_source_note(
     md("**Notes**: An asterisk (*) next to a player's name in the header indicates the match winner. 
     
+    
     The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.
+    
     
     Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him.")
   )|> 
@@ -124,5 +129,383 @@ table_2 |>
     locations = cells_body()
   ) |> 
   opt_stylize(style = 6, color = 'gray')
+
+```
+
+```{r figure-1, echo: false, message: false, warning: false}
+rally_lengths <- rally_data |>
+  filter(!is.na(rally_winner)) |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  summarise(
+    rally_length = max(stroke),
+    rally_winner = rally_winner,
+    .groups = "drop"
+  )|>
+  mutate(
+    chou_result = if_else(
+      rally_winner == "CHOU Tien Chen", 
+      "Win", 
+      "Loss"
+    )
+  )
+
+mean_length <- mean(rally_lengths$rally_length, na.rm = TRUE)
+sd_length <- sd(rally_lengths$rally_length, na.rm = TRUE)
+
+rally_lengths |>
+  summarise(
+    count = n(),
+    mean = mean(rally_length),
+    sd = sd(rally_length),
+    min = min(rally_length),
+    Q1 = quantile(rally_length, 0.25),
+    median = median(rally_length),
+    Q3 = quantile(rally_length, 0.75),
+    max = max(rally_length)
+  ) |>
+  gt() |>
+  fmt_number(columns = everything(), decimals = 0) |>
+  cols_label(
+    count = "No. of rallies",
+    mean = "Mean",
+    sd = "Standard deviation",
+    min = "Minimum",
+    Q1 = "Q1",
+    median = "Median",
+    Q3 = "Q3",
+    max = "Maximum"
+  ) |>
+  cols_align(align = "center", columns = everything()) |> 
+  tab_style(                                              
+    style = cell_text(align = "center"),
+    locations = cells_column_labels(columns = everything())
+  ) |>
+  tab_options(
+    data_row.padding = px(6),
+    column_labels.padding = px(10),
+    table.width = pct(100)
+  ) |>
+  opt_stylize(style = 6, color = "gray")
+
+ggplot(rally_lengths, aes(x = rally_length)) +
+  geom_histogram(binwidth = 1, 
+                 fill = "#A3D1FF", color = "white") +
+  geom_vline(aes(xintercept = mean_length), 
+             color = "black", linetype = "solid", 
+             size = 0.1) +
+  geom_vline(aes(xintercept = mean_length + sd_length), 
+             color = "black", linetype = "dashed", 
+             size = 0.1) +
+  geom_vline(aes(xintercept = mean_length - sd_length), 
+             color = "black", linetype = "dashed", 
+             size = 0.1) +
+  labs(
+    title = "Distribution of Rally Lengths",
+    x = "Number of Strokes in a Rally",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+ggplot(rally_lengths, 
+       aes(rally_length, fill = chou_result)) +
+  geom_histogram(binwidth = 3, color = "white")  +
+  scale_fill_manual(
+    values = c("Win" = "#CDECCB", "Loss" = "#FFB3B3"),
+    name = "CHOU Tien Chen"
+  ) +
+  labs(
+    title = "Rally Length Distribution by CHOU Tien Chen's Wins and Losses",
+    x = "Number of Strokes in a Rally",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+```{r figure-2, echo: false, message: false, warning: false}
+
+chou_shots <- rally_data |>
+  filter(current_player == "CHOU Tien Chen") |>
+  group_by(match_id, set, rally) |>
+  mutate(
+    last_by_chou = row_number() == max(row_number())) |>
+  filter(last_by_chou) |>
+  select(match_id, set, rally, shot_type, rally_winner)|>
+  filter(!is.na(rally_winner)) |>
+  mutate(won_point = if_else(rally_winner == "CHOU Tien Chen", 1, 0)) |>
+  group_by(shot_type) |>
+  summarise(
+    total = n(),
+    points_won = sum(won_point),
+    .groups = "drop"
+  ) |>
+  ungroup()
+  
+ggplot(chou_shots, aes(x = fct_reorder(shot_type, total), y = total, fill = points_won)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_gradient(low = "#FFB3B3", high = "#CDECCB", name = "Points Won") +
+  labs(
+    title = "CHOU Tien Chen’s Shot Types and Their Success",
+    x = "Shot Type",
+    y = "Number of Times Used"
+  ) +
+  theme_minimal()
+```
+
+```{r figure-4, echo: false, message: false, warning: false}
+
+winning_shots <- rally_data |>
+  filter(current_player == "CHOU Tien Chen") |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  filter(rally_winner == "CHOU Tien Chen") |>
+  select(match_id, set, rally, shot_type) |>
+  ungroup() |>
+  count(shot_type, name = "chou_wins")
+
+ggplot(winning_shots, aes(x = fct_reorder(shot_type, chou_wins), y = chou_wins)) +
+  geom_col(fill = "#CDECCB") +
+  coord_flip() +
+  labs(
+    title = "CHOU Tien Chen’s Winning Shots",
+    x = "Shot Type",
+    y = "Rallies Won by CHOU"
+  ) +
+  theme_minimal()
+```
+```{r figure-5, echo: false, message: false, warning: false}
+
+winning_shots_hand <- rally_data |>
+  filter(current_player == "CHOU Tien Chen") |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  filter(rally_winner == "CHOU Tien Chen") |>
+  select(match_id, set, rally, shot_type, backhand) |>
+  mutate(hand = if_else(backhand == 1, "Backhand", "Fronthand")) |>
+  ungroup() |>
+  count(shot_type, hand)
+
+ggplot(winning_shots_hand, aes(x = fct_reorder(shot_type, n, sum), y = n, fill = hand)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = c("Fronthand" = "#A3D1FF", "Backhand" = "#2A7BC4")) +
+  labs(
+    title = "CHOU Tien Chen’s Winning Shots by Hand Used",
+    x = "Shot Type",
+    y = "Rallies Won",
+    fill = "Hand Used"
+  ) +
+  theme_minimal()
+
+
+rally_data |>
+  filter(current_player == "CHOU Tien Chen") |>
+  select(match_id, set, rally, backhand, rally_winner) |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  filter(!is.na(rally_winner)) |>
+  mutate(
+    hand = if_else(backhand == 1, "Backhand", "Fronthand"),
+    point_won = rally_winner == "CHOU Tien Chen"
+  ) |>
+  group_by(hand) |>
+  summarise(
+    total = n(),
+    points_won = sum(point_won),
+    pct_won = round(100 * points_won / total, 1),
+    .groups = "drop"
+  ) |>
+  gt() |>
+  fmt_number(columns = c(total, points_won), decimals = 0) |>
+  fmt_percent(columns = pct_won, scale_values = FALSE, decimals = 0) |>
+  cols_label(
+    hand = "Hand",
+    total = "Total Shots",
+    points_won = "Total Points",
+    pct_won = "% Shots Scored"
+  ) |>
+  cols_align(align = "center", columns = everything()) |> 
+  tab_style(                                              
+    style = cell_text(align = "center"),
+    locations = cells_column_labels(columns = everything())
+  ) |>
+  tab_options(
+    data_row.padding = px(6),
+    column_labels.padding = px(10),
+    table.width = pct(100)
+  ) |>
+  opt_stylize(style = 6, color = "gray")
+
+
+```
+
+```{r figure-3, echo: false, message: false, warning: false}
+
+loosing_shots <- rally_data |>
+  filter(current_player != "CHOU Tien Chen") |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  filter(rally_winner != "CHOU Tien Chen") |>
+  select(match_id, set, rally, shot_type) |>
+  ungroup() |>  
+  count(shot_type, name = "chou_losses")
+  
+ggplot(loosing_shots, aes(x = fct_reorder(shot_type, chou_losses), y = chou_losses)) +
+  geom_col(fill = "#FFB3B3") +
+  coord_flip() +
+  labs(
+    title = "Opponent Shots That Led to CHOU Tien Chen Losing",
+    x = "Shot Type",
+    y = "Rallies Lost by CHOU"
+  ) +
+  theme_minimal()
+```
+
+```{r figure-33, echo: false, message: false, warning: false}
+
+shuttle_points <- rally_data |>
+  filter(!is.na(shuttle_x), !is.na(shuttle_y))|>
+  count(shuttle_x, shuttle_y, name = "freq") 
+
+# Court polygon
+court_df <- tibble(
+  x = c(
+    court_coordinates$upleft_x,
+    court_coordinates$upright_x,
+    court_coordinates$downright_x,
+    court_coordinates$downleft_x
+  ),
+  y = c(
+    court_coordinates$upleft_y,
+    court_coordinates$upright_y,
+    court_coordinates$downright_y,
+    court_coordinates$downleft_y
+  )
+)
+
+# Net line
+net_y <- (court_coordinates$upleft_y + court_coordinates$downleft_y) / 2
+
+net_df <- tibble(
+  x = c(court_coordinates$upleft_x, court_coordinates$upright_x),
+  y = c(net_y, net_y)
+)
+
+# Plot court with points
+ggplot() +
+  geom_polygon(data = court_df, aes(x = x, y = y), fill = "white", color = "black") +
+  geom_line(data = net_df, aes(x = x, y = y), color = "red", linetype = "solid", linewidth = 1) +
+  geom_point(
+    data = shuttle_points,
+    aes(x = shuttle_x, y = shuttle_y, size = freq, alpha = freq),
+    color = "#2A7BC4"
+  ) +
+  scale_size_continuous(range = c(1, 6), guide = "none") +
+  scale_alpha_continuous(range = c(0.2, 0.9), guide = "none") +
+  coord_fixed() +
+  labs(
+    title = "Shuttle Landing Points",
+    subtitle = "Point size and transparency reflect frequency",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  )
+
+chou_shots_win <- rally_data |>
+  filter(current_player == "CHOU Tien Chen") |>
+  filter(!is.na(shuttle_x), !is.na(shuttle_y), !is.na(chou_y), !is.na(rally_winner)) |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  mutate(
+    point_outcome = if_else(rally_winner == "CHOU Tien Chen", "Win", "No Point"),
+    shuttle_y_mirrored = if_else(chou_y < net_y, 2 * net_y - shuttle_y, shuttle_y),
+    shuttle_x_mirrored = shuttle_x  # <- this line is corrected
+  ) |>
+  filter(point_outcome == "Win")
+
+
+ggplot() +
+  geom_polygon(data = court_df, aes(x = x, y = y), fill = "white", color = "black") +
+  geom_line(data = net_df, aes(x = x, y = y), color = "red", linetype = "solid", linewidth = .5) +
+  geom_point(
+    data = chou_shots_win,
+    aes(x = shuttle_x_mirrored, y = shuttle_y_mirrored, color = shot_type),
+    alpha = 0.7,
+    size = 3
+  ) +
+  coord_fixed() +
+  labs(
+    title = "CHOU's Winning Shuttle Landing Positions",
+    color = "Shot Type"
+  ) + scale_color_viridis_d(option = "D") + guides(color = guide_legend(ncol = 2)) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  ) +
+  annotate("text", 
+         x = (court_coordinates$upleft_x + court_coordinates$upright_x) / 2, 
+         y = court_coordinates$downleft_y + 30, 
+         label = "CHOU Tien Chen", 
+         size = 3,  color = "black", hjust = 0.5) +
+annotate("text", 
+         x = (court_coordinates$upleft_x + court_coordinates$upright_x) / 2, 
+         y = court_coordinates$upleft_y - 30, 
+         label = "Opponent", 
+         size = 3,  color = "black", hjust = 0.5)
+
+# Filter for opponent's winning shots (CHOU lost the point)
+opp_shots_win <- rally_data |>
+  filter(current_player != "CHOU Tien Chen") |>
+  filter(!is.na(shuttle_x), !is.na(shuttle_y), !is.na(opp_y), !is.na(rally_winner)) |>
+  group_by(match_id, set, rally) |>
+  slice_tail(n = 1) |>
+  filter(rally_winner != "CHOU Tien Chen") |>
+  mutate(
+    shuttle_y_mirrored = if_else(opp_y > net_y, 2 * net_y - shuttle_y, shuttle_y),
+    shuttle_x_mirrored = shuttle_x
+  )
+
+# Plot for CHOU's losing points from opponent shots
+ggplot() +
+  geom_polygon(data = court_df, aes(x = x, y = y), fill = "white", color = "black") +
+  geom_line(data = net_df, aes(x = x, y = y), color = "red", linetype = "solid", linewidth = .5) +
+  geom_point(
+    data = opp_shots_win,
+    aes(x = shuttle_x_mirrored, y = shuttle_y_mirrored, color = shot_type),
+    alpha = 0.7,
+    size = 3
+  ) +
+  coord_fixed() +
+  labs(
+    title = "CHOU's Losing Shuttle Landing Positions",
+    color = "Shot Type"
+  ) + 
+  scale_color_viridis_d(option = "D") +
+  guides(color = guide_legend(ncol = 2)) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  ) +
+  annotate("text", 
+           x = (court_coordinates$upleft_x + court_coordinates$upright_x) / 2, 
+           y = court_coordinates$downleft_y + 30, 
+           label = "CHOU Tien Chen", 
+           size = 3,  color = "black", hjust = 0.5) +
+  annotate("text", 
+           x = (court_coordinates$upleft_x + court_coordinates$upright_x) / 2, 
+           y = court_coordinates$upleft_y - 30, 
+           label = "Opponent", 
+           size = 3,  color = "black", hjust = 0.5)
+
 
 ```
