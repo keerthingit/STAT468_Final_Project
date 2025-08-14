@@ -11,8 +11,6 @@ library(tidyverse)
 library(lsr)
 library(lme4)
 library(pROC)
-library(vetiver)
-library(pins)
 
 # load data
 rally_data <- 
@@ -531,16 +529,4 @@ cv_model
 
 #should've left out some matches for testing
 
-write.csv(final_stroke_data, "../cleaned data/final_stroke_data.csv")
-
-v <- vetiver_model(
-  step_model_int, "chou_model")
-
-board <- board_s3(
-  bucket = Sys.getenv("S3_BUCKET"),
-  region = Sys.getenv("AWS_DEFAULT_REGION")
-)
-
-vetiver_pin_write(board, v)
-vetiver_prepare_docker(board, "chou_model", path = "../")
 ```
