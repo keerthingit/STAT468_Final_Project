@@ -14,7 +14,7 @@ book:
     - 05-visualize.qmd
     - 06-model.qmd
     - 07-communicate.qmd
-    - appendix.qmd
+    - references.qmd
 
 bibliography: references.bib
 
