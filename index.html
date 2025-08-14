@@ -172,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract"><span class="header-section-number">1</span> Abstract</a></li>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract"><span class="header-section-number">0.1</span> Abstract</a></li>
   </ul>
 </nav>
     </div>
@@ -210,9 +210,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="abstract" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Abstract</h1>
-<p>pppeeepppooo</p>
+<section id="abstract" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="abstract"><span class="header-section-number">0.1</span> Abstract</h2>
+<p>Publicly available spatio-temporal datasets of badminton matches are scarce and in-depth analysis of badminton matches and players is limited. The existing literature include three-strokes rally analysis, stroke forecasting, shot influence, and player movement prediction. However, I could not find a study that examines a combination of rally characteristics such as shot type, rally length, shuttle, player and opponent positions and how they influence rally outcomes.</p>
+<p>I used the ShuttleSet dataset, a human-annotated dataset with stroke-by-stroke data including shot types, rally outcomes, positional data etc. It contains 44 matches of various players between 2018 and 2021. I focused specifically on men’s singles matches played by Chou Tien-Chen between 2018 and 2019 because he is the player with the most recorded matches in the dataset.</p>
+<p>I built an interactive Shiny application in which users specify rally length, shot type, player/opponent positions, and choose an opponent against Chou Tien Chen, and the application provides the user with the shuttle landing positions that maximize rally win probability.</p>
+<p>The predictive model and analysis is limited to 11 matches and approximately 400 final rally shot data points. There were many data quality issues including rallies with missing or mismatched shot counts, unknown shot types, and misattributed players. I decided to remove these rallies which may impact generalizability of the model. Replacing missing and incorrect data points with means was considered but not implemented. As more comprehensive computer-vision datasets become available for badminton, the predictive accuracy of my model will improve.</p>
 
 
 </section>
