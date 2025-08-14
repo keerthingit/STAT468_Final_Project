@@ -1,4 +1,10 @@
-# Question of Interest and Relevance
+## Question of Interest and Relevance
 
-hi
+> **How are the outcomes of a rally in CHOU's badminton matches affected by the opponent, shot type, relative positions of the player, shuttle, and opponent, as well as rally length?**
+
+A badminton player’s optimal shot placement for winning rallies may vary depending on the opponent. A player’s decision‐making in shot placement may change as a rally progresses. For example, when rallies drag on, fatigue may influence shot selection and placement.
+
+Common strategies in badminton include placing the shot very close to opponent’s body to restrict their movement or directing the shot opposite to the opponent to force weak returns. Certain shot types, such as smashes and net shots are frequently used to score points but their success depends on the opponent's strengths and weaknesses.
+
+By analyzing the combined effects of opponent, shot type, rally length, and positions of the player, shuttle, and opponent, this project aims to identify patterns that can enhance Chou Tien‐Chen’s match strategies.
 

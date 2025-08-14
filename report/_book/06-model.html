@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -190,7 +224,1662 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>hi</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'car'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    recode</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(olsrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'olsrr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:datasets':
+
+    rivers</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ lubridate 1.9.4     ✔ tibble    3.3.0
+✔ purrr     1.1.0     ✔ tidyr     1.3.1
+✔ readr     2.1.5     </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+✖ car::recode()   masks dplyr::recode()
+✖ purrr::some()   masks car::some()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lsr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix
+
+Attaching package: 'Matrix'
+
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Type 'citation("pROC")' for a citation.
+
+Attaching package: 'pROC'
+
+The following objects are masked from 'package:stats':
+
+    cov, smooth, var</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vetiver)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pins)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>rally_data <span class="ot">&lt;-</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">"../cleaned data/rally_data.csv"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>matches_metadata <span class="ot">&lt;-</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">"../cleaned data/matches_metadata.csv"</span>, </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>court_coordinates <span class="ot">&lt;-</span> </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">"../cleaned data/court_coordinates.csv"</span>, </span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>final_stroke_data <span class="ot">&lt;-</span> rally_data <span class="sc">|&gt;</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get match metadata</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(matches_metadata <span class="sc">|&gt;</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(tournament, match_id, year, round, winner, loser), </span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">by =</span> <span class="st">"match_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(match_id, set, rally) <span class="sc">|&gt;</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter to final strokes in rally only</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add factor() </span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">tournament =</span> <span class="fu">factor</span>(tournament),</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_win =</span> <span class="fu">factor</span>(</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ifelse</span>(rally_winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"loss"</span>, <span class="st">"win"</span>)),</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">round =</span> <span class="fu">factor</span>(</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>      round,</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Group-Stage"</span>, <span class="st">"Quarter-finals"</span>, <span class="st">"Semi-finals"</span>, <span class="st">"Finals"</span>),</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">set =</span> <span class="fu">factor</span>(set, <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">rally_phase =</span> <span class="fu">factor</span>(</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>      rally_phase, </span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"early"</span>, <span class="st">"mid"</span>, <span class="st">"late"</span>), </span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">shot_type =</span> <span class="fu">factor</span>(shot_type),</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">backhand =</span> <span class="fu">factor</span>(</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>      backhand, </span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"forehand"</span>,<span class="st">"backhand"</span>)),</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">opponent =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(winner <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>, loser, winner))</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">rally_length =</span> stroke</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_player <span class="sc">==</span> <span class="st">"CHOU Tien Chen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    year, tournament, match_id, opponent, round, </span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>    set, rally_phase, rally_length, </span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>    chou_win, shot_type, backhand, </span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>    chou_x, chou_y, opp_x, </span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>    opp_y, shuttle_x, shuttle_y</span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelling</span></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression</span></span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumption 1: Outcome is binary </span></span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Satisfied since chou_win is binary</span></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(chou_win <span class="sc">~</span> tournament <span class="sc">+</span> year <span class="sc">+</span> opponent <span class="sc">+</span> set <span class="sc">+</span> rally_phase <span class="sc">+</span> </span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a>                         rally_length <span class="sc">+</span> shot_type <span class="sc">+</span> backhand <span class="sc">+</span> </span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>                         chou_x <span class="sc">+</span> chou_y <span class="sc">+</span> opp_x <span class="sc">+</span> opp_y <span class="sc">+</span> </span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>                         shuttle_x <span class="sc">+</span> shuttle_y, </span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> final_stroke_data, </span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ tournament + year + opponent + set + 
+    rally_phase + rally_length + shot_type + backhand + chou_x + 
+    chou_y + opp_x + opp_y + shuttle_x + shuttle_y, family = binomial(link = "logit"), 
+    data = final_stroke_data)
+
+Coefficients: (1 not defined because of singularities)
+                                  Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)                     -1.173e+03  1.092e+03  -1.074  0.28285   
+tournamentFuzhou Open           -8.948e-01  5.855e-01  -1.528  0.12647   
+tournamentIndonesia Open        -2.351e+00  1.399e+00  -1.680  0.09288 . 
+tournamentKOREA OPEN            -6.262e-01  8.085e-01  -0.775  0.43856   
+tournamentMalaysia Open         -4.871e-01  6.381e-01  -0.763  0.44522   
+tournamentSudirman Cup          -1.713e+00  1.120e+00  -1.530  0.12612   
+tournamentWorld Tour Finals     -2.422e-01  6.995e-01  -0.346  0.72914   
+year                             5.844e-01  5.414e-01   1.080  0.28034   
+opponentCHEN Long               -1.703e+00  1.022e+00  -1.665  0.09587 . 
+opponentJonatan CHRISTIE         1.923e+00  8.967e-01   2.144  0.03200 * 
+opponentKento MOMOTA            -9.882e-01  8.017e-01  -1.233  0.21773   
+opponentNG Ka Long Angus                NA         NA      NA       NA   
+set.L                            3.776e-01  3.411e-01   1.107  0.26832   
+set.Q                            6.555e-02  2.746e-01   0.239  0.81132   
+rally_phase.L                   -3.216e-01  2.526e-01  -1.273  0.20306   
+rally_phase.Q                    1.850e-01  2.547e-01   0.726  0.46760   
+rally_length                     2.790e-02  1.754e-02   1.591  0.11171   
+shot_typeclear                  -1.644e+00  1.624e+00  -1.012  0.31138   
+shot_typecross-court net shot   -1.110e+00  1.607e+00  -0.691  0.48949   
+shot_typedefensive return drive -6.110e-03  1.888e+00  -0.003  0.99742   
+shot_typedefensive return lob    8.914e-01  1.988e+00   0.448  0.65380   
+shot_typedrive                  -1.843e+00  1.682e+00  -1.096  0.27313   
+shot_typedriven flight          -1.621e+01  2.400e+03  -0.007  0.99461   
+shot_typedrop                   -1.274e+00  1.721e+00  -0.740  0.45905   
+shot_typelob                    -2.103e+00  1.634e+00  -1.288  0.19786   
+shot_typelong service           -1.741e+01  2.400e+03  -0.007  0.99421   
+shot_typenet shot               -3.531e+00  1.654e+00  -2.135  0.03277 * 
+shot_typepassive drop           -1.708e+01  1.028e+03  -0.017  0.98674   
+shot_typepush                   -2.056e+00  1.660e+00  -1.238  0.21555   
+shot_typereturn net             -2.793e+00  1.585e+00  -1.763  0.07798 . 
+shot_typerush                    5.895e-01  1.572e+00   0.375  0.70765   
+shot_typeshort service          -2.298e-01  2.040e+00  -0.113  0.91035   
+shot_typesmash                   5.218e-01  1.515e+00   0.344  0.73058   
+shot_typewrist smash             1.281e+00  1.709e+00   0.749  0.45375   
+backhandbackhand                -9.794e-01  4.238e-01  -2.311  0.02085 * 
+chou_x                           2.945e-03  3.335e-03   0.883  0.37717   
+chou_y                          -4.726e-03  2.088e-03  -2.264  0.02360 * 
+opp_x                           -2.844e-03  4.368e-03  -0.651  0.51509   
+opp_y                           -5.902e-03  2.228e-03  -2.649  0.00807 **
+shuttle_x                        5.034e-04  1.409e-03   0.357  0.72092   
+shuttle_y                        6.326e-04  1.081e-03   0.585  0.55855   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 544.73  on 408  degrees of freedom
+Residual deviance: 333.05  on 369  degrees of freedom
+AIC: 413.05
+
+Number of Fisher Scoring iterations: 15</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shot_typedriven flight, shot_typelong service, shot_typeshort service </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># have large std error because they are rarely used in final shots</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># some shot types have really large std errors in model1</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># aggregate those shots to create a new level "Other"</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># alternate option was to use bootstrapping/oversampling </span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># to decrease class imbalance</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>rare_shots <span class="ot">&lt;-</span> final_stroke_data <span class="sc">|&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(shot_type) <span class="sc">|&gt;</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&lt;</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(shot_type)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace rare shot types with "other"</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>final_stroke_data <span class="ot">&lt;-</span> final_stroke_data <span class="sc">|&gt;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">shot_type =</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(shot_type <span class="sc">%in%</span> rare_shots, </span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"other"</span>, </span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">as.character</span>(shot_type)))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># no large std error anymore</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(chou_win <span class="sc">~</span> year <span class="sc">+</span> tournament <span class="sc">+</span> opponent <span class="sc">+</span> round <span class="sc">+</span> set <span class="sc">+</span> rally_phase <span class="sc">+</span> </span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>                rally_length <span class="sc">+</span> shot_type <span class="sc">+</span> backhand <span class="sc">+</span> </span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>                chou_x <span class="sc">+</span> chou_y <span class="sc">+</span> opp_x <span class="sc">+</span> opp_y <span class="sc">+</span> </span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>                shuttle_x <span class="sc">+</span> shuttle_y, </span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> final_stroke_data, </span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ year + tournament + opponent + round + 
+    set + rally_phase + rally_length + shot_type + backhand + 
+    chou_x + chou_y + opp_x + opp_y + shuttle_x + shuttle_y, 
+    family = binomial(link = "logit"), data = final_stroke_data)
+
+Coefficients: (4 not defined because of singularities)
+                                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                   -1.240e+03  1.078e+03  -1.150 0.250116    
+year                           6.163e-01  5.343e-01   1.154 0.248662    
+tournamentFuzhou Open         -8.520e-01  5.729e-01  -1.487 0.136956    
+tournamentIndonesia Open      -2.178e+00  1.338e+00  -1.628 0.103584    
+tournamentKOREA OPEN          -6.427e-01  7.812e-01  -0.823 0.410659    
+tournamentMalaysia Open       -2.538e-01  6.248e-01  -0.406 0.684538    
+tournamentSudirman Cup        -1.694e+00  1.054e+00  -1.606 0.108198    
+tournamentWorld Tour Finals   -2.062e-01  6.972e-01  -0.296 0.767386    
+opponentCHEN Long             -1.591e+00  9.810e-01  -1.622 0.104878    
+opponentJonatan CHRISTIE       1.980e+00  8.689e-01   2.279 0.022655 *  
+opponentKento MOMOTA          -9.857e-01  7.526e-01  -1.310 0.190274    
+opponentNG Ka Long Angus              NA         NA      NA       NA    
+round.L                               NA         NA      NA       NA    
+round.Q                               NA         NA      NA       NA    
+round.C                               NA         NA      NA       NA    
+set.L                          3.665e-01  3.372e-01   1.087 0.277186    
+set.Q                          1.797e-01  2.652e-01   0.677 0.498114    
+rally_phase.L                 -3.903e-01  2.456e-01  -1.589 0.111995    
+rally_phase.Q                  1.283e-01  2.500e-01   0.513 0.607851    
+rally_length                   2.656e-02  1.665e-02   1.595 0.110716    
+shot_typecross-court net shot  5.304e-01  7.716e-01   0.687 0.491841    
+shot_typedrive                -2.406e-01  9.358e-01  -0.257 0.797124    
+shot_typedrop                  3.782e-01  1.004e+00   0.377 0.706293    
+shot_typelob                  -5.341e-01  8.359e-01  -0.639 0.522840    
+shot_typenet shot             -1.946e+00  8.648e-01  -2.250 0.024432 *  
+shot_typeother                 8.204e-01  8.124e-01   1.010 0.312528    
+shot_typepush                 -3.872e-01  9.106e-01  -0.425 0.670676    
+shot_typereturn net           -1.197e+00  7.531e-01  -1.589 0.112001    
+shot_typerush                  2.239e+00  7.498e-01   2.986 0.002828 ** 
+shot_typesmash                 2.166e+00  6.431e-01   3.368 0.000756 ***
+shot_typewrist smash           2.973e+00  1.031e+00   2.884 0.003930 ** 
+backhandbackhand              -8.396e-01  3.948e-01  -2.127 0.033434 *  
+chou_x                         2.704e-03  3.265e-03   0.828 0.407511    
+chou_y                        -4.212e-03  1.979e-03  -2.128 0.033301 *  
+opp_x                         -1.994e-03  4.307e-03  -0.463 0.643443    
+opp_y                         -5.606e-03  2.190e-03  -2.559 0.010492 *  
+shuttle_x                      4.625e-04  1.383e-03   0.334 0.738110    
+shuttle_y                      5.467e-04  1.039e-03   0.526 0.598756    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 544.73  on 408  degrees of freedom
+Residual deviance: 343.05  on 375  degrees of freedom
+AIC: 411.05
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumption 2: Multicollinearity</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># between categorical factors </span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># opponent, set, round, rally_phase, shot_type, backhand</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>categorical_factors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"opponent"</span>, <span class="st">"round"</span>, <span class="st">"set"</span>, </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"rally_phase"</span>, <span class="st">"shot_type"</span>, </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"backhand"</span>, <span class="st">"tournament"</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>cramers_v_calc <span class="ot">&lt;-</span> <span class="cf">function</span>(factor1, factor2, data) {</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  contingency_table <span class="ot">&lt;-</span> <span class="fu">table</span>(data[[factor1]], data[[factor2]])</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(<span class="fu">cramersV</span>(contingency_table))</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>cram_matrix <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">7</span>, <span class="dv">7</span>, </span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(categorical_factors, </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                                     categorical_factors))</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) {</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) {</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">==</span> j) {</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>      cram_matrix[i, j] <span class="ot">=</span> <span class="dv">1</span>  </span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>      cram_matrix[i, j] <span class="ot">=</span> <span class="fu">cramers_v_calc</span>(categorical_factors[i], </span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>                                         categorical_factors[j], </span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>                                         final_stroke_data)</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect
+Warning in stats::chisq.test(...): Chi-squared approximation may be incorrect</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cram_matrix <span class="ot">&lt;-</span> <span class="fu">round</span>(cram_matrix, <span class="dv">2</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.datacamp.com/tutorial/variance-inflation-factor</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plot_matrix_heatmap <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix) {</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  melted_matrix <span class="ot">&lt;-</span> <span class="fu">melt</span>(matrix) </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot heatmap</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> melted_matrix, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x =</span> Var1, <span class="at">y =</span> Var2, <span class="at">fill =</span> value)) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, </span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">limit =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">space =</span> <span class="st">"Lab"</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(value, <span class="dv">2</span>)))</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_matrix_heatmap</span>(cram_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-model_files/figure-html/table-1, echo- false, message- false, warning- false-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># round is highly correlated with opponent</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># tournament is highly correlated with round and opponent</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># keep only one of them!</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># between numeric factors </span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># rally_length, chou_x, chou_y, opp_x, opp_y, shuttle_x, shuttle_y</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>numeric_factors <span class="ot">&lt;-</span> final_stroke_data <span class="sc">|&gt;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, rally_length, chou_x, chou_y,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>         opp_x, opp_y, shuttle_x, shuttle_y)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(numeric_factors), <span class="dv">2</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_matrix_heatmap</span>(corr_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-model_files/figure-html/table-1, echo- false, message- false, warning- false-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shuttle_y and chou_y are highly negatively correlated</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># shuttle_y and opp_y are positively correlated</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># opp_y and chou_y are negatively correlated</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># opp_x and chou_x are positively correlated</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.researchgate.net/publication/229748502_Multicolinearity_in_regression_models_with_multiple_distance_measures</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.researchgate.net/publication/378318969_Engineering_Features_from_Raw_Sensor_Data_to_Analyse_Player_Movements_during_Competition</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># derive spatial features such as orthogonal distances</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># derive orthogonal distances</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>final_stroke_data <span class="ot">&lt;-</span> final_stroke_data <span class="sc">|&gt;</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate euclidean dist between chou and opp</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_vx =</span> opp_x <span class="sc">-</span> chou_x,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_vy =</span> opp_y <span class="sc">-</span> chou_y,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_dist =</span> <span class="fu">sqrt</span>(chou_opp_vx<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> chou_opp_vy<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># chou-opp unit vector </span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_uvx =</span> <span class="fu">if_else</span>(chou_opp_dist <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, chou_opp_vx<span class="sc">/</span>chou_opp_dist),</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_uvy =</span> <span class="fu">if_else</span>(chou_opp_dist <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, chou_opp_vy<span class="sc">/</span>chou_opp_dist),</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># chou-opp perpendicular unit vector </span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_uvx_perp =</span> <span class="sc">-</span>chou_opp_uvy,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_opp_uvy_perp =</span> chou_opp_uvx,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate euclidean dist between chou and shuttle</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_shuttle_vx =</span> shuttle_x <span class="sc">-</span> chou_x,</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_shuttle_vy =</span> shuttle_y <span class="sc">-</span> chou_y,</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_shuttle_dist =</span> <span class="fu">sqrt</span>(chou_shuttle_vx<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> chou_shuttle_vy<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># shuttle parallel and perpendicular position relative to chou-opp</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_shuttle_paral =</span> chou_shuttle_vx <span class="sc">*</span> chou_opp_uvx <span class="sc">+</span> </span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>      chou_shuttle_vy <span class="sc">*</span> chou_opp_uvy,</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">chou_shuttle_perp  =</span> chou_shuttle_vx <span class="sc">*</span> chou_opp_uvx_perp <span class="sc">+</span> </span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>      chou_shuttle_vy <span class="sc">*</span> chou_opp_uvy_perp</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="co"># model with derived orthogonal distances instead of raw (x,y) coordinates</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(chou_win <span class="sc">~</span> year <span class="sc">+</span> tournament <span class="sc">+</span> opponent <span class="sc">+</span> round <span class="sc">+</span> set <span class="sc">+</span> </span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>                rally_phase <span class="sc">+</span> rally_length <span class="sc">+</span> shot_type <span class="sc">+</span> </span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>                backhand <span class="sc">+</span> chou_opp_dist <span class="sc">+</span> chou_shuttle_paral <span class="sc">+</span> </span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>                chou_shuttle_perp, </span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> final_stroke_data, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ year + tournament + opponent + round + 
+    set + rally_phase + rally_length + shot_type + backhand + 
+    chou_opp_dist + chou_shuttle_paral + chou_shuttle_perp, family = binomial(link = "logit"), 
+    data = final_stroke_data)
+
+Coefficients: (4 not defined because of singularities)
+                                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                   -1.622e+03  1.129e+03  -1.437 0.150746    
+year                           8.013e-01  5.592e-01   1.433 0.151876    
+tournamentFuzhou Open         -1.338e+00  5.946e-01  -2.250 0.024454 *  
+tournamentIndonesia Open      -3.062e+00  1.313e+00  -2.332 0.019726 *  
+tournamentKOREA OPEN          -8.973e-01  8.141e-01  -1.102 0.270401    
+tournamentMalaysia Open       -3.948e-01  6.212e-01  -0.636 0.525023    
+tournamentSudirman Cup        -1.978e+00  1.056e+00  -1.872 0.061184 .  
+tournamentWorld Tour Finals   -4.924e-01  7.443e-01  -0.662 0.508267    
+opponentCHEN Long             -1.530e+00  9.992e-01  -1.531 0.125831    
+opponentJonatan CHRISTIE       2.069e+00  8.369e-01   2.473 0.013411 *  
+opponentKento MOMOTA          -1.061e+00  7.599e-01  -1.396 0.162566    
+opponentNG Ka Long Angus              NA         NA      NA       NA    
+round.L                               NA         NA      NA       NA    
+round.Q                               NA         NA      NA       NA    
+round.C                               NA         NA      NA       NA    
+set.L                          6.147e-01  3.563e-01   1.725 0.084478 .  
+set.Q                          2.398e-01  2.750e-01   0.872 0.383184    
+rally_phase.L                 -3.390e-01  2.500e-01  -1.356 0.175082    
+rally_phase.Q                  7.420e-02  2.545e-01   0.292 0.770613    
+rally_length                   3.262e-02  1.710e-02   1.908 0.056370 .  
+shot_typecross-court net shot  4.189e+00  1.151e+00   3.641 0.000272 ***
+shot_typedrive                 1.602e+00  1.031e+00   1.555 0.120016    
+shot_typedrop                  1.908e+00  1.096e+00   1.741 0.081770 .  
+shot_typelob                   6.336e-01  9.342e-01   0.678 0.497594    
+shot_typenet shot              2.044e+00  1.254e+00   1.630 0.103105    
+shot_typeother                 2.507e+00  9.392e-01   2.670 0.007596 ** 
+shot_typepush                  5.405e-01  9.707e-01   0.557 0.577615    
+shot_typereturn net            1.871e+00  1.062e+00   1.762 0.078042 .  
+shot_typerush                  4.515e+00  9.937e-01   4.543 5.53e-06 ***
+shot_typesmash                 3.175e+00  7.061e-01   4.497 6.89e-06 ***
+shot_typewrist smash           4.200e+00  1.073e+00   3.914 9.07e-05 ***
+backhandbackhand              -5.459e-01  4.137e-01  -1.320 0.186945    
+chou_opp_dist                 -6.105e-04  2.342e-03  -0.261 0.794318    
+chou_shuttle_paral             8.751e-03  2.080e-03   4.207 2.58e-05 ***
+chou_shuttle_perp              1.786e-03  1.250e-03   1.429 0.152962    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 544.73  on 408  degrees of freedom
+Residual deviance: 324.32  on 378  degrees of freedom
+AIC: 386.32
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check multicollinearity of numeric factors again</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>numeric_factors <span class="ot">&lt;-</span> final_stroke_data <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chou_opp_dist, chou_shuttle_paral, chou_shuttle_perp)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(numeric_factors), <span class="dv">2</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_matrix_heatmap</span>(corr_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-model_files/figure-html/table-1, echo- false, message- false, warning- false-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># chou_shuttle_paral and chou_opp_dist are positively correlated</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove one of them!</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Selection</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># stepwise factor selection procedure</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a null model</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>null_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a full model</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>full_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> year <span class="sc">+</span> tournament <span class="sc">+</span> opponent <span class="sc">+</span> round <span class="sc">+</span> set <span class="sc">+</span> rally_phase <span class="sc">+</span> rally_length <span class="sc">+</span> </span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    shot_type <span class="sc">+</span> backhand <span class="sc">+</span> chou_opp_dist <span class="sc">+</span> </span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    chou_shuttle_paral <span class="sc">+</span> chou_shuttle_perp,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>step_model <span class="ot">&lt;-</span> <span class="fu">step</span>(</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  null_model,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> null_model, <span class="at">upper =</span> full_model),</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">direction =</span> <span class="st">"both"</span>,</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace =</span> <span class="cn">TRUE</span>          </span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=546.73
+chou_win ~ 1
+
+                     Df Deviance    AIC
++ shot_type          11   379.25 403.25
++ chou_shuttle_paral  1   457.84 461.84
++ backhand            1   494.90 498.90
++ chou_opp_dist       1   526.64 530.64
++ chou_shuttle_perp   1   541.83 545.83
+&lt;none&gt;                    544.73 546.73
++ opponent            4   537.00 547.00
++ set                 2   541.47 547.47
++ year                1   543.57 547.57
++ rally_phase         2   541.60 547.60
++ rally_length        1   544.20 548.20
++ round               3   540.38 548.38
++ tournament          6   537.87 551.87
+
+Step:  AIC=403.25
+chou_win ~ shot_type
+
+                     Df Deviance    AIC
++ chou_shuttle_paral  1   357.53 383.53
++ opponent            4   363.44 395.44
++ year                1   374.98 400.98
++ backhand            1   375.08 401.08
++ round               3   373.11 403.11
+&lt;none&gt;                    379.25 403.25
++ chou_shuttle_perp   1   377.91 403.91
++ chou_opp_dist       1   378.14 404.14
++ rally_length        1   378.25 404.25
++ tournament          6   369.39 405.39
++ rally_phase         2   377.93 405.93
++ set                 2   378.73 406.73
+- shot_type          11   544.73 546.73
+
+Step:  AIC=383.53
+chou_win ~ shot_type + chou_shuttle_paral
+
+                     Df Deviance    AIC
++ opponent            4   341.35 375.35
++ year                1   352.18 380.18
++ round               3   349.22 381.22
+&lt;none&gt;                    357.53 383.53
++ backhand            1   355.60 383.60
++ rally_length        1   356.00 384.00
++ chou_shuttle_perp   1   356.09 384.09
++ tournament          6   346.52 384.52
++ chou_opp_dist       1   356.64 384.64
++ set                 2   356.04 386.04
++ rally_phase         2   356.05 386.05
+- chou_shuttle_paral  1   379.25 403.25
+- shot_type          11   457.84 461.84
+
+Step:  AIC=375.35
+chou_win ~ shot_type + chou_shuttle_paral + opponent
+
+                     Df Deviance    AIC
++ rally_length        1   338.17 374.17
+&lt;none&gt;                    341.35 375.35
++ chou_shuttle_perp   1   340.15 376.15
++ backhand            1   340.34 376.34
++ year                1   340.94 376.94
++ chou_opp_dist       1   341.29 377.29
++ rally_phase         2   339.93 377.93
++ set                 2   340.03 378.03
++ round               2   340.81 378.81
++ tournament          5   337.89 381.89
+- opponent            4   357.53 383.53
+- chou_shuttle_paral  1   363.44 395.44
+- shot_type          11   442.40 454.40
+
+Step:  AIC=374.17
+chou_win ~ shot_type + chou_shuttle_paral + opponent + rally_length
+
+                     Df Deviance    AIC
+&lt;none&gt;                    338.17 374.17
++ chou_shuttle_perp   1   336.81 374.81
++ backhand            1   337.05 375.05
+- rally_length        1   341.35 375.35
++ year                1   337.84 375.84
++ chou_opp_dist       1   338.12 376.12
++ rally_phase         2   336.59 376.59
++ set                 2   337.09 377.09
++ round               2   337.55 377.55
++ tournament          5   334.10 380.10
+- opponent            4   356.00 384.00
+- chou_shuttle_paral  1   361.22 395.22
+- shot_type          11   440.13 454.13</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(step_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ shot_type + chou_shuttle_paral + opponent + 
+    rally_length, family = binomial(link = "logit"), data = final_stroke_data)
+
+Coefficients:
+                               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                   -5.202830   1.360753  -3.823 0.000132 ***
+shot_typecross-court net shot  3.527295   1.052685   3.351 0.000806 ***
+shot_typedrive                 1.474430   0.979456   1.505 0.132232    
+shot_typedrop                  2.097873   1.014881   2.067 0.038723 *  
+shot_typelob                   0.598031   0.821577   0.728 0.466671    
+shot_typenet shot              1.606759   1.176518   1.366 0.172036    
+shot_typeother                 2.152643   0.853089   2.523 0.011624 *  
+shot_typepush                  0.818273   0.882518   0.927 0.353821    
+shot_typereturn net            1.423351   0.939846   1.514 0.129911    
+shot_typerush                  4.364417   0.902542   4.836 1.33e-06 ***
+shot_typesmash                 3.199540   0.638840   5.008 5.49e-07 ***
+shot_typewrist smash           4.192354   1.007469   4.161 3.16e-05 ***
+chou_shuttle_paral             0.007603   0.001744   4.360 1.30e-05 ***
+opponentCHEN Long             -0.570509   0.709179  -0.804 0.421129    
+opponentJonatan CHRISTIE       0.702018   0.731136   0.960 0.336968    
+opponentKento MOMOTA          -1.067540   0.652873  -1.635 0.102019    
+opponentNG Ka Long Angus      -0.728052   0.861293  -0.845 0.397943    
+rally_length                   0.029121   0.016417   1.774 0.076089 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 544.73  on 408  degrees of freedom
+Residual deviance: 338.17  on 391  degrees of freedom
+AIC: 374.17
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># removed year, tournament, round, </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set, rally_phase, backhand, chou_opp_dist, chou_shuttle_perp </span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(step_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       GVIF Df GVIF^(1/(2*Df))
+shot_type          4.745943 11        1.073351
+chou_shuttle_paral 3.818278  1        1.954041
+opponent           1.373121  4        1.040432
+rally_length       1.101083  1        1.049325</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VIF &lt; 5 for all factors</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># No Multicollinearity </span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Interactions</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>full_model_int <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> (opponent <span class="sc">+</span> rally_length <span class="sc">+</span> shot_type <span class="sc">+</span> chou_shuttle_paral)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: glm.fit: algorithm did not converge</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(full_model_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ (opponent + rally_length + shot_type + 
+    chou_shuttle_paral)^2, family = binomial(link = "logit"), 
+    data = final_stroke_data)
+
+Coefficients: (9 not defined because of singularities)
+                                                         Estimate Std. Error
+(Intercept)                                             5.663e+15  2.391e+08
+opponentCHEN Long                                       2.392e+14  1.516e+08
+opponentJonatan CHRISTIE                                3.006e+15  1.609e+08
+opponentKento MOMOTA                                   -8.677e+14  1.433e+08
+opponentNG Ka Long Angus                               -1.037e+16  2.102e+08
+rally_length                                           -1.772e+14  3.702e+06
+shot_typecross-court net shot                          -1.087e+16  2.367e+08
+shot_typedrive                                         -1.314e+16  2.333e+08
+shot_typedrop                                          -2.442e+16  3.276e+08
+shot_typelob                                           -9.061e+15  2.202e+08
+shot_typenet shot                                      -1.469e+16  2.322e+08
+shot_typeother                                         -1.614e+16  2.271e+08
+shot_typepush                                          -7.043e+15  2.399e+08
+shot_typereturn net                                    -1.381e+16  2.206e+08
+shot_typerush                                          -5.478e+15  2.208e+08
+shot_typesmash                                         -8.414e+15  2.132e+08
+shot_typewrist smash                                    5.988e+15  3.827e+08
+chou_shuttle_paral                                      3.857e+12  4.209e+05
+opponentCHEN Long:rally_length                         -4.883e+13  2.182e+06
+opponentJonatan CHRISTIE:rally_length                  -5.953e+13  2.812e+06
+opponentKento MOMOTA:rally_length                      -4.983e+13  2.007e+06
+opponentNG Ka Long Angus:rally_length                   1.453e+14  4.987e+06
+opponentCHEN Long:shot_typecross-court net shot         4.252e+15  1.424e+08
+opponentJonatan CHRISTIE:shot_typecross-court net shot  2.690e+15  1.512e+08
+opponentKento MOMOTA:shot_typecross-court net shot      4.948e+15  1.344e+08
+opponentNG Ka Long Angus:shot_typecross-court net shot  1.435e+16  1.747e+08
+opponentCHEN Long:shot_typedrive                        5.792e+15  1.428e+08
+opponentJonatan CHRISTIE:shot_typedrive                 4.932e+15  1.698e+08
+opponentKento MOMOTA:shot_typedrive                     6.247e+15  1.431e+08
+opponentNG Ka Long Angus:shot_typedrive                        NA         NA
+opponentCHEN Long:shot_typedrop                                NA         NA
+opponentJonatan CHRISTIE:shot_typedrop                  4.894e+15  2.270e+08
+opponentKento MOMOTA:shot_typedrop                      4.726e+15  1.856e+08
+opponentNG Ka Long Angus:shot_typedrop                         NA         NA
+opponentCHEN Long:shot_typelob                          1.136e+15  1.138e+08
+opponentJonatan CHRISTIE:shot_typelob                   2.058e+15  1.132e+08
+opponentKento MOMOTA:shot_typelob                       3.875e+14  1.033e+08
+opponentNG Ka Long Angus:shot_typelob                          NA         NA
+opponentCHEN Long:shot_typenet shot                     3.739e+15  1.355e+08
+opponentJonatan CHRISTIE:shot_typenet shot              2.331e+15  1.439e+08
+opponentKento MOMOTA:shot_typenet shot                  3.915e+15  1.278e+08
+opponentNG Ka Long Angus:shot_typenet shot              1.073e+16  1.824e+08
+opponentCHEN Long:shot_typeother                        5.977e+15  1.249e+08
+opponentJonatan CHRISTIE:shot_typeother                 7.245e+15  1.358e+08
+opponentKento MOMOTA:shot_typeother                     9.823e+15  1.120e+08
+opponentNG Ka Long Angus:shot_typeother                 8.304e+15  9.937e+07
+opponentCHEN Long:shot_typepush                         8.894e+14  1.299e+08
+opponentJonatan CHRISTIE:shot_typepush                         NA         NA
+opponentKento MOMOTA:shot_typepush                      2.675e+15  1.191e+08
+opponentNG Ka Long Angus:shot_typepush                         NA         NA
+opponentCHEN Long:shot_typereturn net                   4.792e+15  1.174e+08
+opponentJonatan CHRISTIE:shot_typereturn net            3.723e+15  1.251e+08
+opponentKento MOMOTA:shot_typereturn net                5.923e+15  1.095e+08
+opponentNG Ka Long Angus:shot_typereturn net            1.418e+16  2.195e+08
+opponentCHEN Long:shot_typerush                        -1.091e+15  1.161e+08
+opponentJonatan CHRISTIE:shot_typerush                  4.814e+14  1.230e+08
+opponentKento MOMOTA:shot_typerush                     -4.515e+14  1.099e+08
+opponentNG Ka Long Angus:shot_typerush                  5.516e+15  1.341e+08
+opponentCHEN Long:shot_typesmash                        5.160e+15  9.273e+07
+opponentJonatan CHRISTIE:shot_typesmash                 4.585e+15  9.778e+07
+opponentKento MOMOTA:shot_typesmash                     6.454e+15  8.516e+07
+opponentNG Ka Long Angus:shot_typesmash                        NA         NA
+opponentCHEN Long:shot_typewrist smash                         NA         NA
+opponentJonatan CHRISTIE:shot_typewrist smash          -3.133e+15  1.235e+08
+opponentKento MOMOTA:shot_typewrist smash               4.395e+13  1.111e+08
+opponentNG Ka Long Angus:shot_typewrist smash                  NA         NA
+opponentCHEN Long:chou_shuttle_paral                   -1.321e+13  2.517e+05
+opponentJonatan CHRISTIE:chou_shuttle_paral            -1.820e+13  2.653e+05
+opponentKento MOMOTA:chou_shuttle_paral                -1.359e+13  2.448e+05
+opponentNG Ka Long Angus:chou_shuttle_paral             1.093e+13  4.101e+05
+rally_length:shot_typecross-court net shot              1.377e+14  3.370e+06
+rally_length:shot_typedrive                             4.880e+13  5.444e+06
+rally_length:shot_typedrop                             -4.366e+14  6.621e+06
+rally_length:shot_typelob                               6.061e+13  2.622e+06
+rally_length:shot_typenet shot                          2.545e+14  3.302e+06
+rally_length:shot_typeother                             1.352e+12  2.613e+06
+rally_length:shot_typepush                              1.481e+14  3.036e+06
+rally_length:shot_typereturn net                        2.032e+14  2.696e+06
+rally_length:shot_typerush                              2.292e+14  2.594e+06
+rally_length:shot_typesmash                             3.859e+13  1.862e+06
+rally_length:shot_typewrist smash                      -9.919e+13  4.534e+06
+rally_length:chou_shuttle_paral                         3.364e+11  5.218e+03
+shot_typecross-court net shot:chou_shuttle_paral        1.714e+13  4.021e+05
+shot_typedrive:chou_shuttle_paral                       1.410e+13  3.598e+05
+shot_typedrop:chou_shuttle_paral                        6.458e+13  6.331e+05
+shot_typelob:chou_shuttle_paral                         9.434e+12  3.546e+05
+shot_typenet shot:chou_shuttle_paral                    2.758e+13  3.980e+05
+shot_typeother:chou_shuttle_paral                       1.640e+13  3.598e+05
+shot_typepush:chou_shuttle_paral                        4.415e+12  3.811e+05
+shot_typereturn net:chou_shuttle_paral                  1.436e+13  3.457e+05
+shot_typerush:chou_shuttle_paral                        7.773e+12  3.521e+05
+shot_typesmash:chou_shuttle_paral                       8.049e+12  3.507e+05
+shot_typewrist smash:chou_shuttle_paral                -8.361e+12  7.316e+05
+                                                         z value Pr(&gt;|z|)    
+(Intercept)                                             23685629   &lt;2e-16 ***
+opponentCHEN Long                                        1577952   &lt;2e-16 ***
+opponentJonatan CHRISTIE                                18685222   &lt;2e-16 ***
+opponentKento MOMOTA                                    -6056631   &lt;2e-16 ***
+opponentNG Ka Long Angus                               -49324422   &lt;2e-16 ***
+rally_length                                           -47872846   &lt;2e-16 ***
+shot_typecross-court net shot                          -45912348   &lt;2e-16 ***
+shot_typedrive                                         -56339981   &lt;2e-16 ***
+shot_typedrop                                          -74530279   &lt;2e-16 ***
+shot_typelob                                           -41150876   &lt;2e-16 ***
+shot_typenet shot                                      -63237924   &lt;2e-16 ***
+shot_typeother                                         -71054858   &lt;2e-16 ***
+shot_typepush                                          -29360436   &lt;2e-16 ***
+shot_typereturn net                                    -62598068   &lt;2e-16 ***
+shot_typerush                                          -24809784   &lt;2e-16 ***
+shot_typesmash                                         -39465072   &lt;2e-16 ***
+shot_typewrist smash                                    15645933   &lt;2e-16 ***
+chou_shuttle_paral                                       9165357   &lt;2e-16 ***
+opponentCHEN Long:rally_length                         -22375311   &lt;2e-16 ***
+opponentJonatan CHRISTIE:rally_length                  -21171727   &lt;2e-16 ***
+opponentKento MOMOTA:rally_length                      -24832068   &lt;2e-16 ***
+opponentNG Ka Long Angus:rally_length                   29146084   &lt;2e-16 ***
+opponentCHEN Long:shot_typecross-court net shot         29857588   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typecross-court net shot  17788693   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typecross-court net shot      36815846   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typecross-court net shot  82131633   &lt;2e-16 ***
+opponentCHEN Long:shot_typedrive                        40562382   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typedrive                 29048022   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typedrive                     43647580   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typedrive                       NA       NA    
+opponentCHEN Long:shot_typedrop                               NA       NA    
+opponentJonatan CHRISTIE:shot_typedrop                  21562093   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typedrop                      25459252   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typedrop                        NA       NA    
+opponentCHEN Long:shot_typelob                           9985916   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typelob                   18176870   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typelob                        3750924   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typelob                         NA       NA    
+opponentCHEN Long:shot_typenet shot                     27594191   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typenet shot              16198074   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typenet shot                  30627977   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typenet shot              58809820   &lt;2e-16 ***
+opponentCHEN Long:shot_typeother                        47845563   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typeother                 53361827   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typeother                     87683746   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typeother                 83559998   &lt;2e-16 ***
+opponentCHEN Long:shot_typepush                          6848259   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typepush                        NA       NA    
+opponentKento MOMOTA:shot_typepush                      22469597   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typepush                        NA       NA    
+opponentCHEN Long:shot_typereturn net                   40802739   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typereturn net            29762226   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typereturn net                54099493   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typereturn net            64594316   &lt;2e-16 ***
+opponentCHEN Long:shot_typerush                         -9390646   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typerush                   3914643   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typerush                      -4108318   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typerush                  41142917   &lt;2e-16 ***
+opponentCHEN Long:shot_typesmash                        55651740   &lt;2e-16 ***
+opponentJonatan CHRISTIE:shot_typesmash                 46887617   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typesmash                     75791552   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typesmash                       NA       NA    
+opponentCHEN Long:shot_typewrist smash                        NA       NA    
+opponentJonatan CHRISTIE:shot_typewrist smash          -25360904   &lt;2e-16 ***
+opponentKento MOMOTA:shot_typewrist smash                 395690   &lt;2e-16 ***
+opponentNG Ka Long Angus:shot_typewrist smash                 NA       NA    
+opponentCHEN Long:chou_shuttle_paral                   -52478079   &lt;2e-16 ***
+opponentJonatan CHRISTIE:chou_shuttle_paral            -68607205   &lt;2e-16 ***
+opponentKento MOMOTA:chou_shuttle_paral                -55515206   &lt;2e-16 ***
+opponentNG Ka Long Angus:chou_shuttle_paral             26650525   &lt;2e-16 ***
+rally_length:shot_typecross-court net shot              40878375   &lt;2e-16 ***
+rally_length:shot_typedrive                              8964291   &lt;2e-16 ***
+rally_length:shot_typedrop                             -65942638   &lt;2e-16 ***
+rally_length:shot_typelob                               23115805   &lt;2e-16 ***
+rally_length:shot_typenet shot                          77079364   &lt;2e-16 ***
+rally_length:shot_typeother                               517390   &lt;2e-16 ***
+rally_length:shot_typepush                              48785085   &lt;2e-16 ***
+rally_length:shot_typereturn net                        75382212   &lt;2e-16 ***
+rally_length:shot_typerush                              88366692   &lt;2e-16 ***
+rally_length:shot_typesmash                             20720555   &lt;2e-16 ***
+rally_length:shot_typewrist smash                      -21877009   &lt;2e-16 ***
+rally_length:chou_shuttle_paral                         64459886   &lt;2e-16 ***
+shot_typecross-court net shot:chou_shuttle_paral        42637763   &lt;2e-16 ***
+shot_typedrive:chou_shuttle_paral                       39177561   &lt;2e-16 ***
+shot_typedrop:chou_shuttle_paral                       102001221   &lt;2e-16 ***
+shot_typelob:chou_shuttle_paral                         26602757   &lt;2e-16 ***
+shot_typenet shot:chou_shuttle_paral                    69291561   &lt;2e-16 ***
+shot_typeother:chou_shuttle_paral                       45582657   &lt;2e-16 ***
+shot_typepush:chou_shuttle_paral                        11584805   &lt;2e-16 ***
+shot_typereturn net:chou_shuttle_paral                  41526937   &lt;2e-16 ***
+shot_typerush:chou_shuttle_paral                        22074067   &lt;2e-16 ***
+shot_typesmash:chou_shuttle_paral                       22951994   &lt;2e-16 ***
+shot_typewrist smash:chou_shuttle_paral                -11428144   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance:  544.73  on 408  degrees of freedom
+Residual deviance: 4613.59  on 325  degrees of freedom
+AIC: 4781.6
+
+Number of Fisher Scoring iterations: 25</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># std error are crazy </span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>step_model_int <span class="ot">&lt;-</span> <span class="fu">step</span>(</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  step_model, </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> step_model, <span class="at">upper =</span> full_model_int),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">direction =</span> <span class="st">"both"</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=374.17
+chou_win ~ shot_type + chou_shuttle_paral + opponent + rally_length
+
+                                  Df Deviance    AIC
+&lt;none&gt;                                 338.17 374.17
++ rally_length:chou_shuttle_paral  1   337.96 375.96
++ opponent:rally_length            4   333.89 377.89
++ shot_type:chou_shuttle_paral    11   320.17 378.17
++ opponent:chou_shuttle_paral      4   335.41 379.41
++ rally_length:shot_type          11   323.21 381.21
++ opponent:shot_type              35   297.44 403.44</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no interaction terms retained </span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(step_model_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ shot_type + chou_shuttle_paral + opponent + 
+    rally_length, family = binomial(link = "logit"), data = final_stroke_data)
+
+Coefficients:
+                               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                   -5.202830   1.360753  -3.823 0.000132 ***
+shot_typecross-court net shot  3.527295   1.052685   3.351 0.000806 ***
+shot_typedrive                 1.474430   0.979456   1.505 0.132232    
+shot_typedrop                  2.097873   1.014881   2.067 0.038723 *  
+shot_typelob                   0.598031   0.821577   0.728 0.466671    
+shot_typenet shot              1.606759   1.176518   1.366 0.172036    
+shot_typeother                 2.152643   0.853089   2.523 0.011624 *  
+shot_typepush                  0.818273   0.882518   0.927 0.353821    
+shot_typereturn net            1.423351   0.939846   1.514 0.129911    
+shot_typerush                  4.364417   0.902542   4.836 1.33e-06 ***
+shot_typesmash                 3.199540   0.638840   5.008 5.49e-07 ***
+shot_typewrist smash           4.192354   1.007469   4.161 3.16e-05 ***
+chou_shuttle_paral             0.007603   0.001744   4.360 1.30e-05 ***
+opponentCHEN Long             -0.570509   0.709179  -0.804 0.421129    
+opponentJonatan CHRISTIE       0.702018   0.731136   0.960 0.336968    
+opponentKento MOMOTA          -1.067540   0.652873  -1.635 0.102019    
+opponentNG Ka Long Angus      -0.728052   0.861293  -0.845 0.397943    
+rally_length                   0.029121   0.016417   1.774 0.076089 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 544.73  on 408  degrees of freedom
+Residual deviance: 338.17  on 391  degrees of freedom
+AIC: 374.17
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Overdisperson</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.highstat.com/Books/BGS/GLMGLMM/pdfs/HILBE-Can_binary_logistic_models_be_overdispersed2Jul2013.pdf</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For a true binary logistic model, there is no overdispersion, </span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or under-dispersion. Each observation is independent of one another. </span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># But what happens when we model a logistic regression where the </span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># data is clustered, ie. where the observations are not independent? </span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Some analysts then claim as a consequence that the model is not </span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># a true Bernoulli model - it’s a quasilikelihood model</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>quasi_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> shot_type <span class="sc">+</span> chou_shuttle_paral <span class="sc">+</span> opponent <span class="sc">+</span> </span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    rally_length,</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">quasibinomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(quasi_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ shot_type + chou_shuttle_paral + opponent + 
+    rally_length, family = quasibinomial(link = "logit"), data = final_stroke_data)
+
+Coefficients:
+                               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                   -5.202830   1.379998  -3.770 0.000188 ***
+shot_typecross-court net shot  3.527295   1.067574   3.304 0.001041 ** 
+shot_typedrive                 1.474430   0.993308   1.484 0.138518    
+shot_typedrop                  2.097873   1.029234   2.038 0.042194 *  
+shot_typelob                   0.598031   0.833196   0.718 0.473337    
+shot_typenet shot              1.606759   1.193157   1.347 0.178875    
+shot_typeother                 2.152643   0.865155   2.488 0.013256 *  
+shot_typepush                  0.818273   0.894999   0.914 0.361137    
+shot_typereturn net            1.423351   0.953138   1.493 0.136157    
+shot_typerush                  4.364417   0.915307   4.768 2.63e-06 ***
+shot_typesmash                 3.199540   0.647875   4.939 1.17e-06 ***
+shot_typewrist smash           4.192354   1.021718   4.103 4.96e-05 ***
+chou_shuttle_paral             0.007603   0.001769   4.299 2.17e-05 ***
+opponentCHEN Long             -0.570509   0.719209  -0.793 0.428116    
+opponentJonatan CHRISTIE       0.702018   0.741477   0.947 0.344334    
+opponentKento MOMOTA          -1.067540   0.662107  -1.612 0.107695    
+opponentNG Ka Long Angus      -0.728052   0.873474  -0.834 0.405064    
+rally_length                   0.029121   0.016649   1.749 0.081057 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for quasibinomial family taken to be 1.028486)
+
+    Null deviance: 544.73  on 408  degrees of freedom
+Residual deviance: 338.17  on 391  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the standard errors are a teeny bit lower</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># I think final shots of rallies are not 100% independent</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># They could depend on year, tournament, round, opponent, rally_phase</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># I tested them as fixed effects and only </span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># opponent was significant</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co"># tournament was highly correlated to round and opponent</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Do I consider the other ones random effects now? </span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's see if that improves my model </span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>m_mixed <span class="ot">&lt;-</span> <span class="fu">glmer</span>(</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> shot_type <span class="sc">+</span> chou_shuttle_paral <span class="sc">+</span> opponent <span class="sc">+</span> </span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    rally_length <span class="sc">+</span>                      </span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> year) <span class="sc">+</span>                                </span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> tournament) <span class="sc">+</span>                               </span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> set) <span class="sc">+</span> </span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> rally_phase),                             </span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_mixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: chou_win ~ shot_type + chou_shuttle_paral + opponent + rally_length +  
+    (1 | year) + (1 | tournament) + (1 | set) + (1 | rally_phase)
+   Data: final_stroke_data
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+    382.2     470.5    -169.1     338.2       387 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.9409 -0.4427 -0.1771  0.5160  4.3248 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ tournament  (Intercept) 0        0       
+ rally_phase (Intercept) 0        0       
+ set         (Intercept) 0        0       
+ year        (Intercept) 0        0       
+Number of obs: 409, groups:  tournament, 7; rally_phase, 3; set, 3; year, 2
+
+Fixed effects:
+                               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                   -5.202830   1.360105  -3.825 0.000131 ***
+shot_typecross-court net shot  3.527295   1.052208   3.352 0.000801 ***
+shot_typedrive                 1.474430   0.979351   1.506 0.132191    
+shot_typedrop                  2.097873   1.014779   2.067 0.038704 *  
+shot_typelob                   0.598031   0.821476   0.728 0.466616    
+shot_typenet shot              1.606759   1.176061   1.366 0.171870    
+shot_typeother                 2.152643   0.852954   2.524 0.011611 *  
+shot_typepush                  0.818273   0.882411   0.927 0.353763    
+shot_typereturn net            1.423351   0.939497   1.515 0.129769    
+shot_typerush                  4.364417   0.902228   4.837 1.32e-06 ***
+shot_typesmash                 3.199540   0.638751   5.009 5.47e-07 ***
+shot_typewrist smash           4.192354   1.007367   4.162 3.16e-05 ***
+chou_shuttle_paral             0.007603   0.001743   4.363 1.28e-05 ***
+opponentCHEN Long             -0.570509   0.709196  -0.804 0.421140    
+opponentJonatan CHRISTIE       0.702018   0.731157   0.960 0.336981    
+opponentKento MOMOTA          -1.067540   0.652889  -1.635 0.102028    
+opponentNG Ka Long Angus      -0.728052   0.861310  -0.845 0.397952    
+rally_length                   0.029121   0.016417   1.774 0.076089 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Correlation matrix not shown by default, as p = 18 &gt; 12.
+Use print(x, correlation=TRUE)  or
+    vcov(x)        if you need it</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>optimizer (Nelder_Mead) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The variance of all random effects is 0</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mixed effect model is not needed</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Outliers</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(step_model_int, <span class="at">type =</span> <span class="st">"pearson"</span>),</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Pearson Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-model_files/figure-html/table-1, echo- false, message- false, warning- false-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># most residual values fall between (−2, 2) </span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but there are values beyond ±3 which </span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># indicates there are outliers</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># identify how many outliers</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>res_p <span class="ot">&lt;-</span> <span class="fu">residuals</span>(step_model_int, <span class="at">type =</span> <span class="st">"pearson"</span>)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>n_out <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">abs</span>(res_p) <span class="sc">&gt;</span> <span class="dv">2</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>n_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>index_out <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">abs</span>(res_p) <span class="sc">&gt;</span> <span class="dv">2</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> final_stroke_data[index_out,] <span class="sc">|&gt;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">res_p =</span> res_p[index_out]</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    res_p, shot_type, rally_length, opponent, chou_shuttle_paral, <span class="fu">everything</span>()</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co"># identify influential points</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>cooks_thres <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">4</span><span class="sc">/</span><span class="fu">nobs</span>(step_model_int),<span class="dv">2</span>)</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cooks.distance</span>(step_model_int))</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> cooks_thres, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-model_files/figure-html/table-1, echo- false, message- false, warning- false-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># identify how many influential points</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>cooks_d <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cooks.distance</span>(step_model_int), <span class="dv">2</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>n_inf <span class="ot">&lt;-</span> <span class="fu">sum</span>(cooks_d <span class="sc">&gt;</span> cooks_thres, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>n_inf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># identify points that are influential</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>index_inf <span class="ot">&lt;-</span> <span class="fu">which</span>(cooks_d <span class="sc">&gt;</span> cooks_thres)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>influential <span class="ot">&lt;-</span> final_stroke_data[index_inf,] <span class="sc">|&gt;</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cooks_d =</span> cooks_d[index_inf]</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="co"># examine influential points</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>influential</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 27 × 30
+    year tournament       match_id opponent round set   rally_phase rally_length
+   &lt;dbl&gt; &lt;fct&gt;               &lt;dbl&gt; &lt;fct&gt;    &lt;ord&gt; &lt;ord&gt; &lt;ord&gt;              &lt;dbl&gt;
+ 1  2019 Fuzhou Open          9771 Kento M… Fina… 3     early                 32
+ 2  2019 Fuzhou Open          9771 Kento M… Fina… 3     early                 14
+ 3  2019 World Tour Fina…     8080 CHEN Lo… Grou… 1     late                  20
+ 4  2019 World Tour Fina…     8080 CHEN Lo… Grou… 1     late                   2
+ 5  2019 World Tour Fina…     8080 CHEN Lo… Grou… 1     late                   6
+ 6  2019 KOREA OPEN           6266 Kento M… Fina… 2     early                  9
+ 7  2019 Denmark Open         4627 CHEN Lo… Quar… 1     late                   6
+ 8  2019 Denmark Open         4627 CHEN Lo… Quar… 1     late                  16
+ 9  2019 Denmark Open         4627 CHEN Lo… Quar… 1     late                   2
+10  2019 Denmark Open         4627 CHEN Lo… Quar… 2     mid                   19
+# ℹ 17 more rows
+# ℹ 22 more variables: chou_win &lt;fct&gt;, shot_type &lt;fct&gt;, backhand &lt;fct&gt;,
+#   chou_x &lt;dbl&gt;, chou_y &lt;dbl&gt;, opp_x &lt;dbl&gt;, opp_y &lt;dbl&gt;, shuttle_x &lt;dbl&gt;,
+#   shuttle_y &lt;dbl&gt;, chou_opp_vx &lt;dbl&gt;, chou_opp_vy &lt;dbl&gt;, chou_opp_dist &lt;dbl&gt;,
+#   chou_opp_uvx &lt;dbl&gt;, chou_opp_uvy &lt;dbl&gt;, chou_opp_uvx_perp &lt;dbl&gt;,
+#   chou_opp_uvy_perp &lt;dbl&gt;, chou_shuttle_vx &lt;dbl&gt;, chou_shuttle_vy &lt;dbl&gt;,
+#   chou_shuttle_dist &lt;dbl&gt;, chou_shuttle_paral &lt;dbl&gt;, …</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>plot_badminton_court <span class="ot">&lt;-</span> <span class="cf">function</span>(court_coordinates) {</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># assume columns: upleft_x, upleft_y, upright_x, upright_y,</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                 downleft_x, downleft_y, downright_x, downright_y</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  cc <span class="ot">&lt;-</span> court_coordinates <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)  <span class="co"># use first row if multiple</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Court polygon in UL -&gt; UR -&gt; DR -&gt; DL -&gt; UL order</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  court_poly <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(cc<span class="sc">$</span>upleft_x,  cc<span class="sc">$</span>upright_x,  cc<span class="sc">$</span>downright_x, cc<span class="sc">$</span>downleft_x, cc<span class="sc">$</span>upleft_x),</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(cc<span class="sc">$</span>upleft_y,  cc<span class="sc">$</span>upright_y,  cc<span class="sc">$</span>downright_y, cc<span class="sc">$</span>downleft_y, cc<span class="sc">$</span>upleft_y)</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Net: connect midpoint of left and right sidelines</span></span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>  left_mid  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">x =</span> <span class="fu">mean</span>(<span class="fu">c</span>(cc<span class="sc">$</span>upleft_x,  cc<span class="sc">$</span>downleft_x)),</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> <span class="fu">mean</span>(<span class="fu">c</span>(cc<span class="sc">$</span>upleft_y,  cc<span class="sc">$</span>downleft_y)))</span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>  right_mid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">x =</span> <span class="fu">mean</span>(<span class="fu">c</span>(cc<span class="sc">$</span>upright_x, cc<span class="sc">$</span>downright_x)),</span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> <span class="fu">mean</span>(<span class="fu">c</span>(cc<span class="sc">$</span>upright_y, cc<span class="sc">$</span>downright_y)))</span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>  net_seg <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">c</span>(left_mid[<span class="st">"x"</span>], right_mid[<span class="st">"x"</span>]),</span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(left_mid[<span class="st">"y"</span>], right_mid[<span class="st">"y"</span>])</span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(<span class="at">data =</span> court_poly, <span class="fu">aes</span>(x, y), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(</span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> net_seg,</span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">x =</span> x[<span class="dv">1</span>], <span class="at">y =</span> y[<span class="dv">1</span>], <span class="at">xend =</span> x[<span class="dv">2</span>], <span class="at">yend =</span> y[<span class="dv">2</span>]),</span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plot_badminton_court</span>(court_coordinates) <span class="sc">+</span></span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> shuttle_x,</span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> shuttle_y,</span>
+<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="fu">factor</span>(chou_win, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Loss"</span>, <span class="st">"Win"</span>))</span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span>,</span>
+<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span></span>
+<span id="cb61-46"><a href="#cb61-46" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb61-47"><a href="#cb61-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Loss"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Win"</span> <span class="ot">=</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb61-48"><a href="#cb61-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Rally Outcome"</span>)</span>
+<span id="cb61-49"><a href="#cb61-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-50"><a href="#cb61-50" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span></span>
+<span id="cb61-51"><a href="#cb61-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb61-52"><a href="#cb61-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> influential,</span>
+<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> shuttle_x, <span class="at">y =</span> shuttle_y,</span>
+<span id="cb61-55"><a href="#cb61-55" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">factor</span>(chou_win, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Loss"</span>, <span class="st">"Win"</span>))</span>
+<span id="cb61-56"><a href="#cb61-56" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb61-57"><a href="#cb61-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">3.8</span>, <span class="at">stroke =</span> <span class="fl">1.2</span>, <span class="at">color =</span> <span class="st">"black"</span></span>
+<span id="cb61-58"><a href="#cb61-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb61-59"><a href="#cb61-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Loss"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Win"</span> <span class="ot">=</span> <span class="st">"blue"</span>), <span class="at">guide =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_segment(data = net_seg, aes(x = x[1], y = y[1], xend = x[2], : All aesthetics have length 1, but the data has 2 rows.
+ℹ Please consider using `annotate()` or provide this layer with data containing
+  a single row.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-model_files/figure-html/table-1, echo- false, message- false, warning- false-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># influential points are not the ones that are outside of the court</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 0) Tag influential rows (uses your existing index_inf)</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>final_stroke_data <span class="ot">&lt;-</span> final_stroke_data <span class="sc">|&gt;</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_inf =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>final_stroke_data<span class="sc">$</span>is_inf[index_inf] <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Opponent (stacked count; black part = influential)</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(final_stroke_data, <span class="fu">aes</span>(<span class="at">x =</span> opponent, <span class="at">fill =</span> is_inf)) <span class="sc">+</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey80"</span>, <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span>),</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"All"</span>, <span class="st">"Influential"</span>)) <span class="sc">+</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Opponent"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Opponent distribution with influential highlighted"</span>) <span class="sc">+</span></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Are influential points mostly from a single opponent? No</span></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Rally length (overlay outline for influential)</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(final_stroke_data, <span class="fu">aes</span>(<span class="at">x =</span> rally_length)) <span class="sc">+</span></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">"grey80"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">data =</span> <span class="fu">subset</span>(final_stroke_data, is_inf),</span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> rally_length),</span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Rally length (strokes)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Rally length with influential overlay"</span>) <span class="sc">+</span></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a><span class="co">#Do influential points occur mostly at extreme rally lengths? No</span></span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Shot type (stacked count; black part = influential)</span></span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(final_stroke_data, <span class="fu">aes</span>(<span class="at">x =</span> shot_type, <span class="at">fill =</span> is_inf)) <span class="sc">+</span></span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey80"</span>, <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span>),</span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"All"</span>, <span class="st">"Influential"</span>)) <span class="sc">+</span></span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Shot type"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb65-34"><a href="#cb65-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Shot type distribution with influential highlighted"</span>) <span class="sc">+</span></span>
+<span id="cb65-35"><a href="#cb65-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb65-36"><a href="#cb65-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb65-37"><a href="#cb65-37" aria-hidden="true" tabindex="-1"></a><span class="co">#Are influential points mostly a rare shot type? Nope</span></span>
+<span id="cb65-38"><a href="#cb65-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-39"><a href="#cb65-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 4) chou_shuttle_paral (histogram + rug for influential)</span></span>
+<span id="cb65-40"><a href="#cb65-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(final_stroke_data, <span class="fu">aes</span>(<span class="at">x =</span> chou_shuttle_paral)) <span class="sc">+</span></span>
+<span id="cb65-41"><a href="#cb65-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"grey80"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb65-42"><a href="#cb65-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">data =</span> <span class="fu">subset</span>(final_stroke_data, is_inf),</span>
+<span id="cb65-43"><a href="#cb65-43" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">x =</span> chou_shuttle_paral), <span class="at">sides =</span> <span class="st">"b"</span>) <span class="sc">+</span></span>
+<span id="cb65-44"><a href="#cb65-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"chou_shuttle_paral"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb65-45"><a href="#cb65-45" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"chou_shuttle_paral distribution with influential rug"</span>) <span class="sc">+</span></span>
+<span id="cb65-46"><a href="#cb65-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb65-47"><a href="#cb65-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Are influential points in the extreme tails of the distribution? Nope</span></span>
+<span id="cb65-48"><a href="#cb65-48" aria-hidden="true" tabindex="-1"></a><span class="co"># influential points are not extreme or errenous points must be rare combination of factors</span></span>
+<span id="cb65-49"><a href="#cb65-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-50"><a href="#cb65-50" aria-hidden="true" tabindex="-1"></a>final_stroke_data_no_inf <span class="ot">&lt;-</span> final_stroke_data[<span class="sc">-</span>index_inf, ]</span>
+<span id="cb65-51"><a href="#cb65-51" aria-hidden="true" tabindex="-1"></a>null_model_no_inf <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb65-52"><a href="#cb65-52" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb65-53"><a href="#cb65-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data_no_inf,</span>
+<span id="cb65-54"><a href="#cb65-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb65-55"><a href="#cb65-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-56"><a href="#cb65-56" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a full model</span></span>
+<span id="cb65-57"><a href="#cb65-57" aria-hidden="true" tabindex="-1"></a>full_model_no_inf <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb65-58"><a href="#cb65-58" aria-hidden="true" tabindex="-1"></a>  chou_win <span class="sc">~</span> year <span class="sc">+</span> tournament <span class="sc">+</span> opponent <span class="sc">+</span> set <span class="sc">+</span> rally_phase <span class="sc">+</span> rally_length <span class="sc">+</span> </span>
+<span id="cb65-59"><a href="#cb65-59" aria-hidden="true" tabindex="-1"></a>    shot_type <span class="sc">+</span> backhand <span class="sc">+</span> chou_opp_dist <span class="sc">+</span> </span>
+<span id="cb65-60"><a href="#cb65-60" aria-hidden="true" tabindex="-1"></a>    chou_shuttle_paral <span class="sc">+</span> chou_shuttle_perp,</span>
+<span id="cb65-61"><a href="#cb65-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data_no_inf,</span>
+<span id="cb65-62"><a href="#cb65-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb65-63"><a href="#cb65-63" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-64"><a href="#cb65-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-65"><a href="#cb65-65" aria-hidden="true" tabindex="-1"></a>step_model_no_inf <span class="ot">&lt;-</span> <span class="fu">step</span>(</span>
+<span id="cb65-66"><a href="#cb65-66" aria-hidden="true" tabindex="-1"></a>  null_model_no_inf,</span>
+<span id="cb65-67"><a href="#cb65-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> null_model_no_inf, <span class="at">upper =</span> full_model_no_inf),</span>
+<span id="cb65-68"><a href="#cb65-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">direction =</span> <span class="st">"both"</span>,</span>
+<span id="cb65-69"><a href="#cb65-69" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace =</span> <span class="cn">TRUE</span>          </span>
+<span id="cb65-70"><a href="#cb65-70" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=504
+chou_win ~ 1
+
+                     Df Deviance    AIC
++ shot_type          11   273.13 297.13
++ chou_shuttle_paral  1   406.88 410.88
++ backhand            1   447.82 451.82
++ chou_opp_dist       1   482.05 486.05
++ opponent            4   491.65 501.65
++ set                 2   497.07 503.07
+&lt;none&gt;                    502.00 504.00
++ chou_shuttle_perp   1   500.13 504.13
++ year                1   500.73 504.73
++ tournament          6   491.39 505.39
++ rally_length        1   501.41 505.41
++ rally_phase         2   500.25 506.25
+
+Step:  AIC=297.13
+chou_win ~ shot_type
+
+                     Df Deviance    AIC
++ chou_shuttle_paral  1   245.80 271.80
++ opponent            4   249.53 281.53
++ tournament          6   255.00 291.00
++ year                1   267.05 293.05
+&lt;none&gt;                    273.13 297.13
++ backhand            1   271.44 297.44
++ rally_length        1   272.31 298.31
++ chou_opp_dist       1   272.47 298.47
++ chou_shuttle_perp   1   273.07 299.07
++ set                 2   272.20 300.20
++ rally_phase         2   272.68 300.68
+- shot_type          11   502.00 504.00
+
+Step:  AIC=271.8
+chou_win ~ shot_type + chou_shuttle_paral
+
+                     Df Deviance    AIC
++ opponent            4   221.43 255.43
++ tournament          6   224.94 262.94
++ year                1   237.74 265.74
++ chou_opp_dist       1   243.19 271.19
+&lt;none&gt;                    245.80 271.80
++ rally_length        1   243.80 271.80
++ set                 2   243.13 273.13
++ backhand            1   245.39 273.39
++ chou_shuttle_perp   1   245.80 273.80
++ rally_phase         2   245.03 275.03
+- chou_shuttle_paral  1   273.13 297.13
+- shot_type          11   406.88 410.88
+
+Step:  AIC=255.43
+chou_win ~ shot_type + chou_shuttle_paral + opponent
+
+                     Df Deviance    AIC
++ rally_length        1   216.04 252.04
+&lt;none&gt;                    221.43 255.43
++ chou_opp_dist       1   220.77 256.77
++ year                1   220.85 256.85
++ chou_shuttle_perp   1   221.37 257.37
++ backhand            1   221.42 257.42
++ set                 2   219.72 257.72
++ tournament          5   214.06 258.06
++ rally_phase         2   220.57 258.57
+- opponent            4   245.80 271.80
+- chou_shuttle_paral  1   249.53 281.53
+- shot_type          11   386.48 398.48
+
+Step:  AIC=252.04
+chou_win ~ shot_type + chou_shuttle_paral + opponent + rally_length
+
+                     Df Deviance    AIC
+&lt;none&gt;                    216.04 252.04
++ tournament          5   207.20 253.20
++ chou_opp_dist       1   215.41 253.41
++ year                1   215.60 253.60
++ backhand            1   216.04 254.04
++ chou_shuttle_perp   1   216.04 254.04
++ set                 2   214.48 254.48
++ rally_phase         2   215.13 255.13
+- rally_length        1   221.43 255.43
+- opponent            4   243.80 271.80
+- chou_shuttle_paral  1   246.74 280.74
+- shot_type          11   383.98 397.98</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(step_model_no_inf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = chou_win ~ shot_type + chou_shuttle_paral + opponent + 
+    rally_length, family = binomial(link = "logit"), data = final_stroke_data_no_inf)
+
+Coefficients:
+                                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                   -7.466e+00  1.852e+00  -4.032 5.53e-05 ***
+shot_typecross-court net shot  5.717e+00  1.370e+00   4.173 3.00e-05 ***
+shot_typedrive                 1.259e+00  1.520e+00   0.829  0.40736    
+shot_typedrop                  2.754e+00  1.502e+00   1.833  0.06674 .  
+shot_typelob                   1.343e+00  1.027e+00   1.308  0.19098    
+shot_typenet shot             -1.283e+01  1.302e+03  -0.010  0.99214    
+shot_typeother                 3.487e+00  1.072e+00   3.253  0.00114 ** 
+shot_typepush                 -1.563e+01  2.489e+03  -0.006  0.99499    
+shot_typereturn net            2.798e+00  1.224e+00   2.286  0.02228 *  
+shot_typerush                  6.962e+00  1.272e+00   5.472 4.45e-08 ***
+shot_typesmash                 4.610e+00  8.324e-01   5.539 3.05e-08 ***
+shot_typewrist smash           2.363e+01  3.127e+03   0.008  0.99397    
+chou_shuttle_paral             1.132e-02  2.365e-03   4.788 1.68e-06 ***
+opponentCHEN Long             -1.614e+00  1.112e+00  -1.452  0.14658    
+opponentJonatan CHRISTIE       4.806e-01  1.117e+00   0.430  0.66705    
+opponentKento MOMOTA          -2.160e+00  1.061e+00  -2.036  0.04179 *  
+opponentNG Ka Long Angus      -1.074e+00  1.367e+00  -0.786  0.43211    
+rally_length                   4.947e-02  2.189e-02   2.260  0.02383 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 502.00  on 381  degrees of freedom
+Residual deviance: 216.04  on 364  degrees of freedom
+AIC: 252.04
+
+Number of Fisher Scoring iterations: 18</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Both models still keep shot_type, chou_shuttle_paral, opponent, and rally_length</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co"># shot_type now have huge SEs</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co"># will not be removing influential points!</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>train_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(step_model_int, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC curve &amp; AUC</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>roc_obj <span class="ot">&lt;-</span> <span class="fu">roc</span>(final_stroke_data<span class="sc">$</span>chou_win, train_preds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = loss, case = win
+Setting direction: controls &lt; cases</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_obj, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">main =</span> <span class="st">"ROC Curve - Training Data"</span>)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span>(roc_obj) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.8823</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># excellent!!</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice
+
+Attaching package: 'caret'
+
+The following object is masked from 'package:purrr':
+
+    lift</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>train_control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>, </span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">classProbs =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">summaryFunction =</span> twoClassSummary)</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>cv_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formula</span>(step_model_int), </span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> final_stroke_data,</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"glm"</span>,</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> train_control,</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>cv_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized Linear Model 
+
+409 samples
+  4 predictor
+  2 classes: 'loss', 'win' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 327, 328, 327, 328, 326 
+Resampling results:
+
+  ROC      Sens       Spec     
+  0.86399  0.8494118  0.7570565</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co">#should've left out some matches for testing</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(final_stroke_data, <span class="st">"../cleaned data/final_stroke_data.csv"</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vetiver_model</span>(</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>  step_model_int, <span class="st">"chou_model"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'butcher':
+  method                 from    
+  as.character.dev_topic generics</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>board <span class="ot">&lt;-</span> <span class="fu">board_s3</span>(</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">bucket =</span> <span class="fu">Sys.getenv</span>(<span class="st">"S3_BUCKET"</span>),</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> <span class="fu">Sys.getenv</span>(<span class="st">"AWS_DEFAULT_REGION"</span>)</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">vetiver_pin_write</span>(board, v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Creating new version '20250814T041848Z-4ce06'
+Writing to pin 'chou_model'
+
+Create a Model Card for your published model
+• Model Cards provide a framework for transparent, responsible reporting
+• Use the vetiver `.Rmd` template as a place to start</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vetiver_prepare_docker</span>(board, <span class="st">"chou_model"</span>, <span class="at">path =</span> <span class="st">"../"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Lockfile written to "vetiver_renv.lock".</code></pre>
+</div>
+</div>
 
 
 

@@ -1,0 +1,541 @@
+library(dplyr)
+library(ggplot2)
+library(car)
+library(reshape2)
+library(olsrr)
+library(tidyverse)
+library(lsr)
+library(lme4)
+library(pROC)
+library(vetiver)
+library(pins)
+
+# load data
+rally_data <- 
+  read_csv("../cleaned data/rally_data.csv",
+                  show_col_types = FALSE)
+matches_metadata <- 
+  read_csv("../cleaned data/matches_metadata.csv", 
+                  show_col_types = FALSE)
+court_coordinates <- 
+  read_csv("../cleaned data/court_coordinates.csv", 
+                  show_col_types = FALSE)
+
+final_stroke_data <- rally_data |>
+  # get match metadata
+  left_join(matches_metadata |>
+              select(tournament, match_id, year, round, winner, loser), 
+             by = "match_id") |>
+  group_by(match_id, set, rally) |>
+  # filter to final strokes in rally only
+  filter(row_number() == n()) |> 
+  ungroup() |>
+  # add factor() 
+  mutate(
+    tournament = factor(tournament),
+    chou_win = factor(
+      ifelse(rally_winner == "CHOU Tien Chen", 1, 0),
+      levels = c(0, 1),
+      labels = c("loss", "win")),
+    round = factor(
+      round,
+      levels = c("Group-Stage", "Quarter-finals", "Semi-finals", "Finals"),
+      ordered = TRUE),
+    set = factor(set, ordered = TRUE),
+    rally_phase = factor(
+      rally_phase, 
+      levels = c("early", "mid", "late"), 
+      ordered = TRUE),
+    shot_type = factor(shot_type),
+    backhand = factor(
+      backhand, 
+      levels = c(0,1), 
+      labels = c("forehand","backhand")),
+    opponent = factor(if_else(winner == "CHOU Tien Chen", loser, winner))
+  ) |>
+  rename(
+    rally_length = stroke
+  ) |>
+  filter(current_player == "CHOU Tien Chen") |>
+  select(
+    year, tournament, match_id, opponent, round, 
+    set, rally_phase, rally_length, 
+    chou_win, shot_type, backhand, 
+    chou_x, chou_y, opp_x, 
+    opp_y, shuttle_x, shuttle_y
+  )
+
+# Modelling
+
+# Logistic Regression
+# Assumption 1: Outcome is binary 
+# Satisfied since chou_win is binary
+
+model1 <- glm(chou_win ~ tournament + year + opponent + set + rally_phase + 
+                         rally_length + shot_type + backhand + 
+                         chou_x + chou_y + opp_x + opp_y + 
+                         shuttle_x + shuttle_y, 
+              data = final_stroke_data, 
+              family = binomial(link = "logit"))
+
+summary(model1)
+# shot_typedriven flight, shot_typelong service, shot_typeshort service 
+# have large std error because they are rarely used in final shots
+
+
+# some shot types have really large std errors in model1
+# aggregate those shots to create a new level "Other"
+# alternate option was to use bootstrapping/oversampling 
+# to decrease class imbalance
+
+rare_shots <- final_stroke_data |>
+  count(shot_type) |>
+  filter(n < 6) |>
+  pull(shot_type)
+
+# Replace rare shot types with "other"
+final_stroke_data <- final_stroke_data |>
+  mutate(
+    shot_type = factor(ifelse(shot_type %in% rare_shots, 
+                              "other", 
+                              as.character(shot_type)))
+  )
+
+# no large std error anymore
+model2 <- glm(chou_win ~ year + tournament + opponent + round + set + rally_phase + 
+                rally_length + shot_type + backhand + 
+                chou_x + chou_y + opp_x + opp_y + 
+                shuttle_x + shuttle_y, 
+              data = final_stroke_data, 
+              family = binomial(link = "logit"))
+
+summary(model2)
+
+# Assumption 2: Multicollinearity
+
+# between categorical factors 
+# opponent, set, round, rally_phase, shot_type, backhand
+categorical_factors <- c("opponent", "round", "set", 
+                         "rally_phase", "shot_type", 
+                         "backhand", "tournament")
+
+cramers_v_calc <- function(factor1, factor2, data) {
+  contingency_table <- table(data[[factor1]], data[[factor2]])
+  as.numeric(cramersV(contingency_table))
+}
+
+cram_matrix = matrix(NA, 7, 7, 
+                     dimnames = list(categorical_factors, 
+                                     categorical_factors))
+
+for (i in 1:7) {
+  for (j in 1:7) {
+    if (i == j) {
+      cram_matrix[i, j] = 1  
+    } else {
+      cram_matrix[i, j] = cramers_v_calc(categorical_factors[i], 
+                                         categorical_factors[j], 
+                                         final_stroke_data)
+    }
+  }
+}
+
+cram_matrix <- round(cram_matrix, 2)
+
+# https://www.datacamp.com/tutorial/variance-inflation-factor
+plot_matrix_heatmap <- function(matrix) {
+  melted_matrix <- melt(matrix) 
+  
+  # plot heatmap
+  ggplot(data = melted_matrix, 
+         aes(x = Var1, y = Var2, fill = value)) +
+    geom_tile(color = "white") +
+    scale_fill_gradient2(
+      low = "blue", high = "red", mid = "white", 
+      midpoint = 0, limit = c(-1, 1), space = "Lab"
+    ) +
+    theme_minimal() +
+    labs(x = "", y = "") +
+    geom_text(aes(label = round(value, 2)))
+}
+
+plot_matrix_heatmap(cram_matrix)
+# round is highly correlated with opponent
+# tournament is highly correlated with round and opponent
+# keep only one of them!
+
+# between numeric factors 
+# rally_length, chou_x, chou_y, opp_x, opp_y, shuttle_x, shuttle_y
+numeric_factors <- final_stroke_data |>
+  select(year, rally_length, chou_x, chou_y,
+         opp_x, opp_y, shuttle_x, shuttle_y)
+
+corr_matrix <- round(cor(numeric_factors), 2)
+plot_matrix_heatmap(corr_matrix)
+
+# shuttle_y and chou_y are highly negatively correlated
+# shuttle_y and opp_y are positively correlated
+# opp_y and chou_y are negatively correlated
+# opp_x and chou_x are positively correlated
+# https://www.researchgate.net/publication/229748502_Multicolinearity_in_regression_models_with_multiple_distance_measures
+# https://www.researchgate.net/publication/378318969_Engineering_Features_from_Raw_Sensor_Data_to_Analyse_Player_Movements_during_Competition
+# derive spatial features such as orthogonal distances
+
+# derive orthogonal distances
+final_stroke_data <- final_stroke_data |>
+  mutate(
+    # calculate euclidean dist between chou and opp
+    chou_opp_vx = opp_x - chou_x,
+    chou_opp_vy = opp_y - chou_y,
+    chou_opp_dist = sqrt(chou_opp_vx^2 + chou_opp_vy^2),
+    
+    # chou-opp unit vector 
+    chou_opp_uvx = if_else(chou_opp_dist == 0, 0, chou_opp_vx/chou_opp_dist),
+    chou_opp_uvy = if_else(chou_opp_dist == 0, 0, chou_opp_vy/chou_opp_dist),
+    # chou-opp perpendicular unit vector 
+    chou_opp_uvx_perp = -chou_opp_uvy,
+    chou_opp_uvy_perp = chou_opp_uvx,
+    
+    # calculate euclidean dist between chou and shuttle
+    chou_shuttle_vx = shuttle_x - chou_x,
+    chou_shuttle_vy = shuttle_y - chou_y,
+    chou_shuttle_dist = sqrt(chou_shuttle_vx^2 + chou_shuttle_vy^2),
+    
+    # shuttle parallel and perpendicular position relative to chou-opp
+    chou_shuttle_paral = chou_shuttle_vx * chou_opp_uvx + 
+      chou_shuttle_vy * chou_opp_uvy,
+    chou_shuttle_perp  = chou_shuttle_vx * chou_opp_uvx_perp + 
+      chou_shuttle_vy * chou_opp_uvy_perp
+  )
+
+# model with derived orthogonal distances instead of raw (x,y) coordinates
+model3 <- glm(chou_win ~ year + tournament + opponent + round + set + 
+                rally_phase + rally_length + shot_type + 
+                backhand + chou_opp_dist + chou_shuttle_paral + 
+                chou_shuttle_perp, 
+              data = final_stroke_data, family = binomial(link = "logit"))
+summary(model3)
+
+# check multicollinearity of numeric factors again
+numeric_factors <- final_stroke_data |>
+  select(chou_opp_dist, chou_shuttle_paral, chou_shuttle_perp)
+
+corr_matrix <- round(cor(numeric_factors), 2)
+plot_matrix_heatmap(corr_matrix)
+# chou_shuttle_paral and chou_opp_dist are positively correlated
+# remove one of them!
+
+# Model Selection
+# stepwise factor selection procedure
+# fit a null model
+null_model <- glm(
+  chou_win ~ 1,
+  data = final_stroke_data,
+  family = binomial(link = "logit")
+)
+# fit a full model
+full_model <- glm(
+  chou_win ~ year + tournament + opponent + round + set + rally_phase + rally_length + 
+    shot_type + backhand + chou_opp_dist + 
+    chou_shuttle_paral + chou_shuttle_perp,
+  data = final_stroke_data,
+  family = binomial(link = "logit")
+)
+
+step_model <- step(
+  null_model,
+  scope = list(lower = null_model, upper = full_model),
+  direction = "both",
+  trace = TRUE          
+)
+summary(step_model)
+# removed year, tournament, round, 
+# set, rally_phase, backhand, chou_opp_dist, chou_shuttle_perp 
+
+car::vif(step_model)
+# VIF < 5 for all factors
+# No Multicollinearity 
+
+# Interactions
+
+full_model_int <- glm(
+  chou_win ~ (opponent + rally_length + shot_type + chou_shuttle_paral)^2,
+  data = final_stroke_data,
+  family = binomial(link = "logit")
+)
+
+summary(full_model_int)
+# std error are crazy 
+
+step_model_int <- step(
+  step_model, 
+  scope = list(lower = step_model, upper = full_model_int),
+  direction = "both"
+)
+# no interaction terms retained 
+summary(step_model_int)
+
+
+# Overdisperson
+# https://www.highstat.com/Books/BGS/GLMGLMM/pdfs/HILBE-Can_binary_logistic_models_be_overdispersed2Jul2013.pdf
+# For a true binary logistic model, there is no overdispersion, 
+# or under-dispersion. Each observation is independent of one another. 
+# But what happens when we model a logistic regression where the 
+# data is clustered, ie. where the observations are not independent? 
+# Some analysts then claim as a consequence that the model is not 
+# a true Bernoulli model - it’s a quasilikelihood model
+
+quasi_model <- glm(
+  chou_win ~ shot_type + chou_shuttle_paral + opponent + 
+    rally_length,
+  data = final_stroke_data,
+  family = quasibinomial(link = "logit")
+)
+summary(quasi_model)
+# the standard errors are a teeny bit lower
+
+# I think final shots of rallies are not 100% independent
+# They could depend on year, tournament, round, opponent, rally_phase
+# I tested them as fixed effects and only 
+# opponent was significant
+# tournament was highly correlated to round and opponent
+# Do I consider the other ones random effects now? 
+# Let's see if that improves my model 
+
+m_mixed <- glmer(
+  chou_win ~ shot_type + chou_shuttle_paral + opponent + 
+    rally_length +                      
+    (1 | year) +                                
+    (1 | tournament) +                               
+    (1 | set) + 
+    (1 | rally_phase),                             
+  data = final_stroke_data,
+  family = binomial(link = "logit")
+)
+
+summary(m_mixed)
+# The variance of all random effects is 0
+# mixed effect model is not needed
+
+# Outliers
+plot(residuals(step_model_int, type = "pearson"),
+     ylab = "Pearson Residuals")
+# most residual values fall between (−2, 2) 
+# but there are values beyond ±3 which 
+# indicates there are outliers
+
+# identify how many outliers
+res_p <- residuals(step_model_int, type = "pearson")
+n_out <- sum(abs(res_p) > 2, na.rm = TRUE)
+n_out
+
+index_out <- which(abs(res_p) > 2)
+outliers <- final_stroke_data[index_out,] |>
+  mutate(
+    res_p = res_p[index_out]
+  ) |>
+  select(
+    res_p, shot_type, rally_length, opponent, chou_shuttle_paral, everything()
+  )
+
+# identify influential points
+cooks_thres <- round(4/nobs(step_model_int),2)
+plot(cooks.distance(step_model_int))
+abline(h = cooks_thres, lty = 2)
+
+# identify how many influential points
+cooks_d <- round(cooks.distance(step_model_int), 2)
+n_inf <- sum(cooks_d > cooks_thres, na.rm = TRUE)
+n_inf
+
+# identify points that are influential
+index_inf <- which(cooks_d > cooks_thres)
+
+influential <- final_stroke_data[index_inf,] |>
+  mutate(
+    cooks_d = cooks_d[index_inf]
+    ) 
+
+# examine influential points
+influential
+
+library(purrr)
+
+plot_badminton_court <- function(court_coordinates) {
+  # assume columns: upleft_x, upleft_y, upright_x, upright_y,
+  #                 downleft_x, downleft_y, downright_x, downright_y
+  cc <- court_coordinates %>% slice(1)  # use first row if multiple
+  
+  # Court polygon in UL -> UR -> DR -> DL -> UL order
+  court_poly <- tibble::tibble(
+    x = c(cc$upleft_x,  cc$upright_x,  cc$downright_x, cc$downleft_x, cc$upleft_x),
+    y = c(cc$upleft_y,  cc$upright_y,  cc$downright_y, cc$downleft_y, cc$upleft_y)
+  )
+  
+  # Net: connect midpoint of left and right sidelines
+  left_mid  <- c(x = mean(c(cc$upleft_x,  cc$downleft_x)),
+                 y = mean(c(cc$upleft_y,  cc$downleft_y)))
+  right_mid <- c(x = mean(c(cc$upright_x, cc$downright_x)),
+                 y = mean(c(cc$upright_y, cc$downright_y)))
+  
+  net_seg <- tibble::tibble(
+    x = c(left_mid["x"], right_mid["x"]),
+    y = c(left_mid["y"], right_mid["y"])
+  )
+  
+  ggplot() +
+    geom_path(data = court_poly, aes(x, y), linewidth = 1) +
+    geom_segment(
+      data = net_seg,
+      aes(x = x[1], y = y[1], xend = x[2], yend = y[2]),
+      linewidth = 1
+    ) +
+    coord_equal() +
+    theme_void()
+}
+
+p <- plot_badminton_court(court_coordinates) +
+  geom_point(
+    data = final_stroke_data,
+    aes(
+      x = shuttle_x,
+      y = shuttle_y,
+      color = factor(chou_win, labels = c("Loss", "Win"))
+    ),
+    alpha = 0.6,
+    size = 2
+  ) +
+  scale_color_manual(values = c("Loss" = "red", "Win" = "blue")) +
+  labs(color = "Rally Outcome")
+
+p +
+  geom_point(
+    data = influential,
+    aes(
+      x = shuttle_x, y = shuttle_y,
+      fill = factor(chou_win, labels = c("Loss", "Win"))
+    ),
+    shape = 21, size = 3.8, stroke = 1.2, color = "black"
+  ) +
+  scale_fill_manual(values = c("Loss" = "red", "Win" = "blue"), guide = "none")
+
+# influential points are not the ones that are outside of the court
+dev.off()
+
+
+# 0) Tag influential rows (uses your existing index_inf)
+final_stroke_data <- final_stroke_data |>
+  mutate(is_inf = FALSE)
+final_stroke_data$is_inf[index_inf] <- TRUE
+
+# 1) Opponent (stacked count; black part = influential)
+ggplot(final_stroke_data, aes(x = opponent, fill = is_inf)) +
+  geom_bar() +
+  scale_fill_manual(values = c(`FALSE` = "grey80", `TRUE` = "black"),
+                    labels = c("All", "Influential")) +
+  labs(x = "Opponent", y = "Count", fill = NULL,
+       title = "Opponent distribution with influential highlighted") +
+  coord_flip() +
+  theme_minimal()
+# Are influential points mostly from a single opponent? No
+
+# 2) Rally length (overlay outline for influential)
+ggplot(final_stroke_data, aes(x = rally_length)) +
+  geom_histogram(binwidth = 1, fill = "grey80", color = "white") +
+  geom_histogram(data = subset(final_stroke_data, is_inf),
+                 aes(x = rally_length),
+                 binwidth = 1, fill = NA, color = "black", linewidth = 1) +
+  labs(x = "Rally length (strokes)", y = "Count",
+       title = "Rally length with influential overlay") +
+  theme_minimal()
+#Do influential points occur mostly at extreme rally lengths? No
+
+# 3) Shot type (stacked count; black part = influential)
+ggplot(final_stroke_data, aes(x = shot_type, fill = is_inf)) +
+  geom_bar() +
+  scale_fill_manual(values = c(`FALSE` = "grey80", `TRUE` = "black"),
+                    labels = c("All", "Influential")) +
+  labs(x = "Shot type", y = "Count", fill = NULL,
+       title = "Shot type distribution with influential highlighted") +
+  coord_flip() +
+  theme_minimal()
+#Are influential points mostly a rare shot type? Nope
+
+# 4) chou_shuttle_paral (histogram + rug for influential)
+ggplot(final_stroke_data, aes(x = chou_shuttle_paral)) +
+  geom_histogram(bins = 30, fill = "grey80", color = "white") +
+  geom_rug(data = subset(final_stroke_data, is_inf),
+           aes(x = chou_shuttle_paral), sides = "b") +
+  labs(x = "chou_shuttle_paral", y = "Count",
+       title = "chou_shuttle_paral distribution with influential rug") +
+  theme_minimal()
+# Are influential points in the extreme tails of the distribution? Nope
+# influential points are not extreme or errenous points must be rare combination of factors
+
+final_stroke_data_no_inf <- final_stroke_data[-index_inf, ]
+null_model_no_inf <- glm(
+  chou_win ~ 1,
+  data = final_stroke_data_no_inf,
+  family = binomial(link = "logit")
+)
+# fit a full model
+full_model_no_inf <- glm(
+  chou_win ~ year + tournament + opponent + set + rally_phase + rally_length + 
+    shot_type + backhand + chou_opp_dist + 
+    chou_shuttle_paral + chou_shuttle_perp,
+  data = final_stroke_data_no_inf,
+  family = binomial(link = "logit")
+)
+
+step_model_no_inf <- step(
+  null_model_no_inf,
+  scope = list(lower = null_model_no_inf, upper = full_model_no_inf),
+  direction = "both",
+  trace = TRUE          
+)
+summary(step_model_no_inf)
+# Both models still keep shot_type, chou_shuttle_paral, opponent, and rally_length
+# shot_type now have huge SEs
+# will not be removing influential points!
+
+
+train_preds <- predict(step_model_int, type = "response")
+
+# ROC curve & AUC
+roc_obj <- roc(final_stroke_data$chou_win, train_preds)
+plot(roc_obj, col = "blue", main = "ROC Curve - Training Data")
+auc(roc_obj) 
+# excellent!!
+
+library(caret)
+
+set.seed(123)
+train_control <- trainControl(method = "cv", number = 5, 
+                              classProbs = TRUE, 
+                              summaryFunction = twoClassSummary)
+
+cv_model <- train(
+  formula(step_model_int), 
+  data = final_stroke_data,
+  method = "glm",
+  family = binomial,
+  trControl = train_control,
+  metric = "ROC"
+)
+
+cv_model
+
+#should've left out some matches for testing
+
+write.csv(final_stroke_data, "../cleaned data/final_stroke_data.csv")
+
+v <- vetiver_model(
+  step_model_int, "chou_model")
+
+board <- board_s3(
+  bucket = Sys.getenv("S3_BUCKET"),
+  region = Sys.getenv("AWS_DEFAULT_REGION")
+)
+
+vetiver_pin_write(board, v)
+vetiver_prepare_docker(board, "chou_model", path = "../")

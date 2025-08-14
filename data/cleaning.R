@@ -61,7 +61,7 @@ rally_data <- rally_data |>
     opp_score  = if_else(winner == "CHOU Tien Chen", roundscore_B, roundscore_A)
   ) |>
   select(match_id, set_id, rally, ball_round, time, player_name, backhand, 
-         landing_x, landing_y, type, flaw, chou_score,opp_score,
+         landing_x, landing_y, type, chou_score,opp_score,
          player_location_x, player_location_y, 
          opponent_location_x, opponent_location_y,
          point_winner_name) 
@@ -190,8 +190,31 @@ rally_data <- rally_data |>
     stroke = ball_round,         
     current_player = player_name,
     shot_type = type,
-    foul = flaw,
     rally_winner = point_winner_name
+  )
+
+rally_data <- rally_data |>
+  group_by(match_id, set, rally) |>
+  filter(
+    !any(shot_type == "unknown" |
+           is.na(chou_x) | is.na(chou_y) |
+           is.na(opp_x) | is.na(opp_y) |
+           is.na(shuttle_x) | is.na(shuttle_y))
+  ) |>
+  ungroup() |>
+  group_by(match_id, set) |>
+  mutate(
+    rally_phase = case_when(
+      ntile(rally, 3) == 1 ~ "early",
+      ntile(rally, 3) == 2 ~ "mid",
+      ntile(rally, 3) == 3 ~ "late"
+    )
+  ) |>
+  ungroup()
+
+chou_matches_metadata <- chou_matches_metadata |>
+  mutate(
+    tournament = str_trim(str_remove(tournament, "\\s+\\d{4}$"))
   )
 
 set_data <- rally_data |>

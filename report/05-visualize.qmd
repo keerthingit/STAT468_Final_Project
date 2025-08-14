@@ -99,7 +99,6 @@ table_1 |>
     
     The table displays each set’s number, set winner and loser, and final score with the point difference in parentheses.
     
-    
     Green highlights indicate sets won by CHOU Tien Chen and red highlights indicate sets lost by him.")
   )|> 
   opt_stylize(style = 6, color = 'gray')
@@ -244,6 +243,8 @@ chou_shots <- rally_data |>
 ggplot(chou_shots, aes(x = fct_reorder(shot_type, total), y = total, fill = points_won)) +
   geom_col() +
   coord_flip() +
+  geom_text(aes(label = paste0(total, " (", points_won, ")")), 
+            hjust = -0.1, size = 3) +
   scale_fill_gradient(low = "#FFB3B3", high = "#CDECCB", name = "Points Won") +
   labs(
     title = "CHOU Tien Chen’s Shot Types and Their Success",

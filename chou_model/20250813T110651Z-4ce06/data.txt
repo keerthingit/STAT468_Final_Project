@@ -1,0 +1,13 @@
+file: chou_model.rds
+file_size: 85827
+pin_hash: 4ce064a7924ec20b
+type: rds
+title: 'chou_model: a pinned list'
+description: A generalized linear model (binomial family, logit link)
+tags: ~
+urls: ~
+created: 20250813T110651Z
+api_version: 1
+user:
+  required_pkgs: ~
+  renv_lock: ~

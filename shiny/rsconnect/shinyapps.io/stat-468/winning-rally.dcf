@@ -1,0 +1,12 @@
+name: winning-rally
+title:
+username: stat-468
+account: stat-468
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15198869
+bundleId: 10770078
+url: https://stat-468.shinyapps.io/winning-rally/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

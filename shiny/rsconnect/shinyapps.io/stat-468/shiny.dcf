@@ -1,0 +1,12 @@
+name: shiny
+title: shiny
+username: stat-468
+account: stat-468
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15197063
+bundleId: 10765586
+url: https://stat-468.shinyapps.io/shiny/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
